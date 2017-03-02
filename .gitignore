@@ -1,0 +1,7 @@
+appsettings.json
+bin/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
