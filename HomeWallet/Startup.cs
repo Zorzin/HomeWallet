@@ -42,7 +42,7 @@ namespace HomeWallet
         {
             services.AddMvc();
             // Add framework services.
-            var connectionString = Configuration["Data:DefaultConnection"];
+            var connectionString = Configuration["ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseNpgsql(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
