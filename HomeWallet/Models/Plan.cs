@@ -12,7 +12,7 @@ namespace HomeWallet.Models
         public double Amount {get;set;}
         public DateTime StartDate {get;set;}
         public DateTime EndDate {get;set;}
-        public int UserID {get;set;}
+        public string UserID {get;set;}
 
         public ApplicationUser User {get;set;}
     }

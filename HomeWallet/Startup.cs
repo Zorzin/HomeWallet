@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using HomeWallet.Data;
 using HomeWallet.Models;
 using HomeWallet.Services;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HomeWallet
 {
@@ -39,15 +40,15 @@ namespace HomeWallet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Configuration["Data:DefaultConnection"];
+            services.AddDbContext<ApplicationDbContext>(opts => opts.UseNpgsql(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

@@ -21,3 +21,15 @@ C:/Users/Zorzin/documents/visual studio 2017/Projects/HomeWallet/HomeWallet/obj/
 /Users/zorzin/Projects/HomeWallet/HomeWallet/HomeWallet/obj/Debug/netcoreapp1.1/HomeWallet.AssemblyInfo.cs
 /Users/zorzin/Projects/HomeWallet/HomeWallet/HomeWallet/obj/Debug/netcoreapp1.1/HomeWallet.dll
 /Users/zorzin/Projects/HomeWallet/HomeWallet/HomeWallet/obj/Debug/netcoreapp1.1/HomeWallet.pdb
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.deps.json
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.runtimeconfig.json
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.runtimeconfig.dev.json
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.dll
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.pdb
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.csprojResolveAssemblyReference.cache
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.AssemblyInfo.cs
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.dll
+C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.pdb
