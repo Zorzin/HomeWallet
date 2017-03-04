@@ -11,6 +11,10 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-HomeWallet-b994d51c-265c-44d0-8f99-6ce3860d7fd8</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\images\receipt.png" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.App" Version="1.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -28,7 +32,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0-msbuild3-final" PrivateAssets="All" />
     <PackageReference Include="Npgsql" Version="3.2.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild3-final" />

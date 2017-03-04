@@ -48,3 +48,47 @@ textarea {
         display: none;
     }
 }
+
+
+/*Home index css*/
+
+.dayheader {
+    height: 50px;
+    margin-top: 30px;
+}
+
+.datetextfield {
+    line-height: 50px;
+    font-size: 30px;
+}
+
+.summarybutton {
+    height: 100%;
+}
+
+.summarybutton button {
+    float: right;
+    margin-top: 8px;
+}
+
+.receiptsummary {
+    border: 1px solid #FFF;
+    background-image: url(../images/receipt.png);
+    width: 180px;
+    height: 300px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.shoptextfield {
+    width: 100%;
+}
+
+.shoptextfield h1 {
+    height: 100%;
+    margin-top: 50%;
+}
+
+.pricetextfield {
+    
+}
