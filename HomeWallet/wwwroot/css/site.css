@@ -72,12 +72,12 @@ textarea {
 }
 
 .receiptsummary {
-    border: 1px solid #FFF;
     background-image: url(../images/receipt.png);
     width: 180px;
     height: 300px;
-    margin-top: 30px;
+    margin: 20px;
     text-align: center;
+    
 }
 
 .shoptextfield {
@@ -91,4 +91,12 @@ textarea {
 
 .pricetextfield {
     
+}
+
+.showmorebutton {
+    width: 300px;
+}
+
+.morebuttondiv {
+    text-align: center;
 }

@@ -1,0 +1,29 @@
+@model IEnumerable<HomeWallet.Models.ReceiptViewModels.HomeReceiptViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="row dayheader">
+            <div class="col-xs-6 col-md-8 datetextfield">
+                <label class="datefield">@Html.DisplayFor(modelitem =>item.Date)</label>
+            </div>
+            <div class="col-xs-6 col-md-4 summarybutton">
+                <button class="btn btn-default">Summary</button>
+            </div>
+        </div>
+        <hr />
+        @foreach (var receipt in item.Receipts)
+        {
+            <a asp-action="Details" asp-controller="Receipts" asp-route-id="@receipt.ID">
+                <div class="col-md-3 col-xs-6 receiptsummary">
+                    <div class="shoptextfield">
+                        <h1>@Html.DisplayFor(modelitem => receipt.Shop)</h1>
+                    </div>
+                    <div class="pricetextfield">
+                        <h3>@Html.DisplayFor(modelitem => receipt.Value)</h3>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}

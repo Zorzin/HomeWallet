@@ -5,53 +5,20 @@
 <div class="container">
     <div class="row dayheader">
         <div class="col-xs-6 col-md-8 datetextfield">
-            <label> 01.01.0001</label>
+            <label class="datefield"> 01.01.0001</label>
         </div>
         <div class="col-xs-6 col-md-4 summarybutton">
             <button class="btn btn-default">Summary</button>
         </div>
     </div>
     <hr />
-    <div class="col-md-3 col-xs-6">
-        <div class="receiptsummary">
-            <div class="shoptextfield">
-                <h1>SHOP</h1>
-            </div>
-            <div class="pricetextfield">
-                <h3>Price</h3>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 col-xs-6">
-        <div class="receiptsummary">
-            <div class="shoptextfield">
-                <h1>SHOP</h1>
-            </div>
-            <div class="pricetextfield">
-                <h3>Price</h3>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 col-xs-6">
-        <div class="receiptsummary">
-            <div class="shoptextfield">
-                <h1>SHOP</h1>
-            </div>
-            <div class="pricetextfield">
-                <h3>Price</h3>
-            </div>
-        </div>
-    </div>
     <a href="#">
-        <div class="col-md-3 col-xs-6">
-            <div class="receiptsummary">
-                <div class="shoptextfield">
-                    <h1>Add</h1>
-                </div>
-                <div class="pricetextfield">
-                    <h3>new</h3>
-                </div>
+        <div class="col-md-3 col-xs-6 receiptsummary">
+            <div class="shoptextfield">
+                <h1>Add</h1>
+            </div>
+            <div class="pricetextfield">
+                <h3>new</h3>
             </div>
         </div>
     </a>
@@ -60,21 +27,52 @@
 <div class="container">
     <div class="row dayheader">
         <div class="col-xs-6 col-md-8 datetextfield">
-            <label> 01.01.0001</label>
+            <label class="datefield"> 02.01.0001</label>
         </div>
         <div class="col-xs-6 col-md-4 summarybutton">
             <button class="btn btn-default">Summary</button>
         </div>
     </div>
     <hr />
-    <div class="col-md-12">
-        <div class="receiptsummary">
+    <a href="#">
+        <div class="col-md-3 col-xs-6 receiptsummary">
             <div class="shoptextfield">
-                <h1>SHOP</h1>
+                <h1>Add</h1>
             </div>
             <div class="pricetextfield">
-                <h3>Price</h3>
+                <h3>new</h3>
             </div>
         </div>
-    </div>
+    </a>
 </div>
+
+<div class="morereceipts"></div>
+
+<div class="col-md-12 morebuttondiv">
+    <button onclick="javascript: addReceipts();" class="btn btn-default showmorebutton">Show More</button>
+</div>
+
+
+<script>
+
+    //$('#showMore').click(function() {
+    //    addReceipts();
+    //});
+    function addReceipts() {
+        var lastId;
+        if ($('.datefield').last().text() != null) {
+            lastId = $('.datefield').last().text();
+        }
+        else {
+            lastId = 0;
+        }
+
+        jQuery.get('/Home/GetReceipts',
+            {
+                lastDate: lastId
+            })
+            .done(function (html) {
+                $('.morereceipts').append(html);
+            });
+    }
+</script>
