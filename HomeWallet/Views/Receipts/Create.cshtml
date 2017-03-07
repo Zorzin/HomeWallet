@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 <form asp-action="Create">
-    <div class="form-horizontal">
+    @* <div class="form-horizontal">
         <h4>Receipt</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -25,22 +25,32 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="UserID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
-            </div>
-        </div>
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+    </div> *@
+
+    <div class="receiptcreate">
+        <div class="receiptshop">
+          <input type="date" asp-for="PurchaseDate" class="form-control" placeholder="Date" />
+          <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+        </div>
+        <div class="receiptdate">
+          <select asp-for="ShopID" class ="form-control" asp-items="ViewBag.ShopID"></select>
+        </div>
+        <div class="receiptaddproduct">
+          <button type="button" class="btn btn-success">Add product</button>
+        </div>
+        <div class="receiptproducts">
+
+        </div>
+        <div class="receiptbuttons">
+            <a asp-action="Index" class="btn btn-danger">Cancel</a>
+            <a asp-action="Index" class="btn btn-success">Save</a>
+        </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

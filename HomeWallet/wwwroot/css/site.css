@@ -77,7 +77,7 @@ textarea {
     height: 300px;
     margin: 20px;
     text-align: center;
-    
+
 }
 
 .shoptextfield {
@@ -90,7 +90,7 @@ textarea {
 }
 
 .pricetextfield {
-    
+
 }
 
 .showmorebutton {
@@ -99,4 +99,33 @@ textarea {
 
 .morebuttondiv {
     text-align: center;
+}
+
+.receiptcreate{
+    margin: auto;
+    padding-top: 70px;
+    background: url(../images/bigreceipt.png);
+    background-size: 480px 720px;
+    width: 480px;
+    height: 720px;
+    left: 50;
+    text-align: center;
+}
+
+.receiptshop{
+  width: 100%;
+  text-align: center;
+  margin: auto;
+}
+
+.receiptshop input{
+  display: inline-block;
+}
+.receiptdate{
+  width: 100%;
+  text-align: center;
+  margin: auto;
+}
+.receiptdate select{
+  display: inline-block;
 }
