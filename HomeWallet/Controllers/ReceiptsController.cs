@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet.Controllers
 {
     public class ReceiptsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ReceiptsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ReceiptsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Receipts
@@ -55,21 +57,71 @@ namespace HomeWallet.Controllers
         }
 
         // POST: Receipts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PurchaseDate,ShopID,UserID")] Receipt receipt)
+        public async Task<IActionResult> Create(CreateReceiptViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(receipt);
+                var receipt = new Receipt()
+                {
+                    ShopID = model.ShopID,
+                    UserID = _userManager.GetUserId(HttpContext.User),
+                    PurchaseDate = model.Date
+                };
+                _context.Receipts.Add(receipt);
                 await _context.SaveChangesAsync();
+
+                foreach(var product in model.Products)
+                {
+                    var receiptproduct = new ReceiptProduct()
+                    {
+                        ReceiptID = receipt.ID,
+                        ProductID = product.ProductID,
+                        Amount = product.Amount,
+                        Price = product.Price
+                    };
+                    _context.ReceiptProducts.Add(receiptproduct);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
             }
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", receipt.ShopID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", receipt.UserID);
-            return View(receipt);
+            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", model.ShopID);
+            return View(model);
+        }
+
+        public async Task<IAsyncResult> AddProduct(CreateProductViewModel model)
+        {
+                if (model.isNew)
+                {
+                    Product product = new Product()
+                    {
+                        Name = model.Name
+                    };
+                    _context.Products.Add(product);
+                    await _context.SaveChangesAsync();
+                    model.ProductID = product.ID;
+                    foreach(var category in model.Categories)
+                    {
+                        var productcategory = new ProductCategory()
+                        {
+                            ProductID = product.ID,
+                            CategoryID = category
+                        };
+                        _context.ProductCategories.Add(productcategory);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                var addModel = new AddProductViewModel()
+                {
+                    ProductID = model.ProductID,
+                    Amount = model.Amount,
+                    Price = model.Price
+                };
+
+            return View(addModel);
         }
 
         // GET: Receipts/Edit/5
@@ -91,7 +143,7 @@ namespace HomeWallet.Controllers
         }
 
         // POST: Receipts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

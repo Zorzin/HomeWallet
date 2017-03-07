@@ -10,7 +10,6 @@ namespace HomeWallet.Models
     {
         public int ID {get;set;}
         public string Name {get;set;}
-        public int ProductCategoryID {get;set;}
         public virtual ICollection<ProductCategory> ProductCategories {get;set;}
     }
 }

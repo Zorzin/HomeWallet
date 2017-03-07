@@ -13,6 +13,7 @@ using HomeWallet.Data;
 using HomeWallet.Models;
 using HomeWallet.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet
 {
@@ -88,5 +89,6 @@ namespace HomeWallet
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
     }
 }

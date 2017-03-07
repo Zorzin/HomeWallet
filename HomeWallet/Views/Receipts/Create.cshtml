@@ -33,10 +33,12 @@
 
     <div class="receiptcreate">
         <div class="receiptshop">
+          <label>Date</label>
           <input type="date" asp-for="PurchaseDate" class="form-control" placeholder="Date" />
           <span asp-validation-for="PurchaseDate" class="text-danger"></span>
         </div>
         <div class="receiptdate">
+          <label>Shop</label>
           <select asp-for="ShopID" class ="form-control" asp-items="ViewBag.ShopID"></select>
         </div>
         <div class="receiptaddproduct">
