@@ -1,5 +1,4 @@
-@model HomeWallet.Models.Receipt
-
+﻿@model HomeWallet.Models.ReceiptViewModels.CreateReceiptViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -7,53 +6,70 @@
 <h2>Create</h2>
 
 <form asp-action="Create">
-    @* <div class="form-horizontal">
-        <h4>Receipt</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="PurchaseDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="PurchaseDate" class="form-control" />
-                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ShopID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ShopID" class ="form-control" asp-items="ViewBag.ShopID"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div> *@
 
     <div class="receiptcreate">
         <div class="receiptshop">
           <label>Date</label>
-          <input type="date" asp-for="PurchaseDate" class="form-control" placeholder="Date" />
-          <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+          <input type="date" asp-for="Date" class="form-control" placeholder="Date" />
+          <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="receiptdate">
           <label>Shop</label>
           <select asp-for="ShopID" class ="form-control" asp-items="ViewBag.ShopID"></select>
         </div>
         <div class="receiptaddproduct">
-          <button type="button" class="btn btn-success">Add product</button>
+          <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
         </div>
         <div class="receiptproducts">
 
         </div>
         <div class="receiptbuttons">
             <a asp-action="Index" class="btn btn-danger">Cancel</a>
-            <a asp-action="Index" class="btn btn-success">Save</a>
+            <input type="submit" class="btn btn-success" value="Save"/>
         </div>
     </div>
 </form>
 
+
+<div id="productdialog"></div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script>
+        var dialog;
+        $('#opendialogbutton').click(function () {
+            dialog = $("#productdialog").dialog({
+                autoOpen: true,
+                modal: true,
+                open: function() {
+                    $(this).load('@Url.Action("AddProduct")');
+                },
+                buttons: {
+                    "Add": function() {
+                        AddProduct();
+                    }
+                }
+            });
+        });
+
+        function AddProduct() {
+            $.ajax({
+                url: '@Url.Action("AddProduct")',
+                type: 'POST',
+                data: $("#addproductform").serialize(),
+                success: function (data) {
+                    $(".receiptproducts").append(data);
+                    dialog.dialog('close');
+                }
+            });
+        };
+
+        $(document).on('click', '#removeproductbutton',
+          function () {
+              $(this).parent().remove();
+            });
+
+    </script>
 }

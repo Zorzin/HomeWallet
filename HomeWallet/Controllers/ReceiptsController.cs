@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Models;
+using HomeWallet.Models.ProductViewModels;
+using HomeWallet.Models.ReceiptViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet.Controllers
@@ -79,7 +81,7 @@ namespace HomeWallet.Controllers
                     var receiptproduct = new ReceiptProduct()
                     {
                         ReceiptID = receipt.ID,
-                        ProductID = product.ProductID,
+                        ProductID = product.Product.ID,
                         Amount = product.Amount,
                         Price = product.Price
                     };
@@ -89,38 +91,48 @@ namespace HomeWallet.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", model.ShopID);
-            return View(model);
+            return View();
         }
 
-        public async Task<IAsyncResult> AddProduct(CreateProductViewModel model)
-        {
-                if (model.isNew)
-                {
-                    Product product = new Product()
-                    {
-                        Name = model.Name
-                    };
-                    _context.Products.Add(product);
-                    await _context.SaveChangesAsync();
-                    model.ProductID = product.ID;
-                    foreach(var category in model.Categories)
-                    {
-                        var productcategory = new ProductCategory()
-                        {
-                            ProductID = product.ID,
-                            CategoryID = category
-                        };
-                        _context.ProductCategories.Add(productcategory);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-                var addModel = new AddProductViewModel()
-                {
-                    ProductID = model.ProductID,
-                    Amount = model.Amount,
-                    Price = model.Price
-                };
 
+        public PartialViewResult AddProduct()
+        {
+          return PartialView("CreateProduct");
+        }
+    [HttpPost]
+        public async Task<ViewResult> AddProduct(CreateProductViewModel model)
+        {
+            Product product;
+            if (model.isNew)
+            {
+                product = new Product()
+                {
+                    Name = model.Name
+                };
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                model.ProductID = product.ID;
+                foreach(var category in model.Categories)
+                {
+                    var productcategory = new ProductCategory()
+                    {
+                        ProductID = product.ID,
+                        CategoryID = category
+                    };
+                    _context.ProductCategories.Add(productcategory);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                product = _context.Products.FirstOrDefault(p => p.ID == model.ProductID);
+            }
+            var addModel = new AddProductViewModel()
+            {
+                Product = product,
+                Amount = model.Amount,
+                Price = model.Price
+            };
             return View(addModel);
         }
 
