@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
+using HomeWallet.Logic.Products;
 using HomeWallet.Models;
 using HomeWallet.Models.ProductViewModels;
 using HomeWallet.Models.ReceiptViewModels;
@@ -53,8 +54,7 @@ namespace HomeWallet.Controllers
         // GET: Receipts/Create
         public IActionResult Create()
         {
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID");
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name");
             return View();
         }
 
@@ -67,61 +67,29 @@ namespace HomeWallet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var receipt = new Receipt()
-                {
-                    ShopID = model.ShopID,
-                    UserID = _userManager.GetUserId(HttpContext.User),
-                    PurchaseDate = model.Date
-                };
-                _context.Receipts.Add(receipt);
-                await _context.SaveChangesAsync();
-
-                foreach(var product in model.Products)
-                {
-                    var receiptproduct = new ReceiptProduct()
-                    {
-                        ReceiptID = receipt.ID,
-                        ProductID = product.Product.ID,
-                        Amount = product.Amount,
-                        Price = product.Price
-                    };
-                    _context.ReceiptProducts.Add(receiptproduct);
-                    await _context.SaveChangesAsync();
-                }
+                var receipt = CreateProduct.CreateReceipt(model.ShopID, _userManager.GetUserId(HttpContext.User), model.Date, _context);
+                CreateProduct.CreateReceiptProducts(model.Products, receipt, _context);
                 return RedirectToAction("Index");
             }
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", model.ShopID);
+            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name", model.ShopID);
             return View();
         }
 
 
         public PartialViewResult AddProduct()
         {
+          ViewData["Products"] = new SelectList(_context.Products,"ID","Name");
           return PartialView("CreateProduct");
         }
-    [HttpPost]
-        public async Task<ViewResult> AddProduct(CreateProductViewModel model)
+        [HttpPost]
+        public ViewResult AddProduct(CreateProductViewModel model)
         {
             Product product;
             if (model.isNew)
             {
-                product = new Product()
-                {
-                    Name = model.Name
-                };
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
+                product = CreateProduct.Create(model.Name, _context);
                 model.ProductID = product.ID;
-                foreach(var category in model.Categories)
-                {
-                    var productcategory = new ProductCategory()
-                    {
-                        ProductID = product.ID,
-                        CategoryID = category
-                    };
-                    _context.ProductCategories.Add(productcategory);
-                    await _context.SaveChangesAsync();
-                }
+                CreateProduct.CreateProductCategories(model.Categories, product.ID, _context);
             }
             else
             {
@@ -149,8 +117,7 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", receipt.ShopID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", receipt.UserID);
+            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name", receipt.ShopID);
             return View(receipt);
         }
 
@@ -186,8 +153,7 @@ namespace HomeWallet.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "ID", receipt.ShopID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", receipt.UserID);
+            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name", receipt.ShopID);
             return View(receipt);
         }
 

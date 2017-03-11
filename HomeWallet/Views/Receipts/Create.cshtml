@@ -3,6 +3,10 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="~/js/chosen.jquery.js"></script>
+<link rel="stylesheet" href="~/css/chosen.css">
 <h2>Create</h2>
 
 <form asp-action="Create">
@@ -15,7 +19,7 @@
         </div>
         <div class="receiptdate">
           <label>Shop</label>
-          <select asp-for="ShopID" class ="form-control" asp-items="ViewBag.ShopID"></select>
+          <select data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
         </div>
         <div class="receiptaddproduct">
           <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
@@ -34,10 +38,28 @@
 <div id="productdialog"></div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="@Url.Content("~/js/chosen.jquery.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(document)
+          .ready(function () {
+              $('.chosen-group-select').chosen();
+              $('.chosen-single-select').chosen();
+          });
+    </script>
     <script>
+      $(document).on('change', '#newproductcheckbox',function () {
+        if ($(this).prop("checked")) {
+          $('#newproduct').show();
+        } else {
+          $('#newproduct').hide();
+        }
+      });
+    </script>
+
+    <script>
+      jQuery.noConflict();
+
         var dialog;
         $('#opendialogbutton').click(function () {
             dialog = $("#productdialog").dialog({
@@ -67,8 +89,8 @@
         };
 
         $(document).on('click', '#removeproductbutton',
-          function () {
-              $(this).parent().remove();
+            function () {
+                $(this).parent().remove();
             });
 
     </script>

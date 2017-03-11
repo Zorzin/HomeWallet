@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
+using HomeWallet.Logic.Home;
 using HomeWallet.Models.ReceiptViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,45 +45,8 @@ namespace HomeWallet.Controllers
 
         public IActionResult GetReceipts(string lastDate)
         {
-            var model = new List<HomeReceiptViewModel>();
-            DateTime last;
-
-            if (lastDate == "0")
-            {
-                last = DateTime.Today.AddDays(1);
-            }
-            else
-            {
-                last = DateTime.Parse(lastDate);
-            }
-
-            var dates = _context.Receipts
-                .Where(r => r.PurchaseDate < last)
-                .Select(r => r.PurchaseDate)
-                .OrderBy(r=>r.Date)
-                .Distinct().Take(3);
-
-            foreach (var date in dates)
-            {
-                var receipts = _context.Receipts.Where(r => r.PurchaseDate == date).ToList();
-                foreach (var receipt in receipts)
-                {
-                    var homeReceiptViewModel = new HomeReceiptViewModel {Date = date};
-                    double value =0;
-                    foreach (var receiptProduct in receipt.ReceiptProducts)
-                    {
-                        value += (receiptProduct.Price * receiptProduct.Amount);
-                    }
-                    var showReceiptViewModel = new ShowReceiptViewModel()
-                    {
-                        ID = receipt.ID,
-                        Shop = receipt.Shop.Name,
-                        Value = value
-                    };
-                    homeReceiptViewModel.Receipts.Add(showReceiptViewModel);
-                    model.Add(homeReceiptViewModel);
-                }
-            }
+            var dates = LoadHomeReceipts.GetDates(lastDate,_context);
+            var model = LoadHomeReceipts.GetHomeReceiptViewModels(dates, _context);
             return PartialView(model);
         }
     }

@@ -8,9 +8,10 @@ using HomeWallet.Data;
 namespace HomeWallet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170311210855_Delete product unnecessary ID")]
+    partial class DeleteproductunnecessaryID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("dbo")

@@ -5,7 +5,30 @@
 @{
     Layout = null;
 }
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="~/js/chosen.jquery.js"></script>
+<link rel="stylesheet" href="~/css/chosen.css">
 
 <form id="addproductform">
-  @Html.EditorForModel()
+    <select id="selectproduct" data-placeholder="Select product" asp-for="ProductID" class ="form-control chosen-single-select" asp-items="ViewBag.Products"></select>
+    <input id="newproductcheckbox" type="checkbox" class="form-control" asp-for="isNew"/>
+    <div id="newproduct" >
+        <input asp-for="Name" class="form-control" placeholder="Name"/>
+        <select data-placeholder="Select categories" asp-for="Categories" class="form-control chosen-group-select" multiple="multiple"></select>
+    </div>
+    <input type="number" asp-for="Amount" class="form-control" placeholder="Amount"/>
+    <input type="number" asp-for="Price" class="form-control" placeholder="Price per unit"/>
 </form>
+
+<script src="@Url.Content("~/js/chosen.jquery.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document) 
+      .ready(function () {
+
+            $('.chosen-group-select').chosen();
+            $('.chosen-single-select').chosen();
+            $('#newproduct').hide();
+        });
+</script>
+

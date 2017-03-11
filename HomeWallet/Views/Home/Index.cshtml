@@ -12,7 +12,7 @@
         </div>
     </div>
     <hr />
-    <a href="#">
+    <a href="@Url.Action("Create","Receipts")">
         <div class="col-md-3 col-xs-6 receiptsummary">
             <div class="shoptextfield">
                 <h1>Add</h1>
@@ -49,27 +49,25 @@
 <div class="morereceipts"></div>
 
 <div class="col-md-12 morebuttondiv">
-    <button onclick="javascript: addReceipts();" class="btn btn-default showmorebutton">Show More</button>
+    <button id="addreceiptbutton" class="btn btn-default showmorebutton">Show More</button>
 </div>
 
 
 <script>
 
-    function addReceipts() {
+    $('#addreceiptbutton').click(function() {
         var lastId;
         if ($('.datefield').last().text() != null) {
             lastId = $('.datefield').last().text();
-        }
-        else {
+        } else {
             lastId = 0;
         }
-
         jQuery.get('/Home/GetReceipts',
             {
                 lastDate: lastId
             })
-            .done(function (html) {
+            .done(function(html) {
                 $('.morereceipts').append(html);
             });
-    }
+    });
 </script>
