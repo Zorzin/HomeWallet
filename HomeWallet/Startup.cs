@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,8 @@ using HomeWallet.Models;
 using HomeWallet.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 namespace HomeWallet
 {
@@ -22,10 +25,10 @@ namespace HomeWallet
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
@@ -42,6 +45,22 @@ namespace HomeWallet
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddLocalization(options => options.ResourcesPath = "GlobalResources");
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("en")
+                };
+              
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+        
+            });
+
             // Add framework services.
             var connectionString = Configuration["ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(opts => opts.UseNpgsql(connectionString));
@@ -75,7 +94,8 @@ namespace HomeWallet
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
             app.UseStaticFiles();
 
             app.UseIdentity();

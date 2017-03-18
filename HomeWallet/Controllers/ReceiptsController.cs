@@ -52,10 +52,18 @@ namespace HomeWallet.Controllers
         }
 
         // GET: Receipts/Create
-        public IActionResult Create()
+        public IActionResult Create(DateTime date)
         {
+            if (date == default(DateTime))
+            {
+                date = DateTime.Today;
+            }
+            var model = new CreateReceiptViewModel()
+            {
+                Date = date.Date
+            };
             ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name");
-            return View();
+            return View(model);
         }
 
         // POST: Receipts/Create
@@ -99,7 +107,8 @@ namespace HomeWallet.Controllers
             {
                 Product = product,
                 Amount = model.Amount,
-                Price = model.Price
+                Price = model.Price,
+                Total = model.Amount * model.Price
             };
             return View(addModel);
         }

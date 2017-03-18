@@ -14,20 +14,26 @@
     @Html.HiddenFor(model => model.Price)
     @Html.HiddenFor(model => model.Amount)
     @Html.HiddenFor(model => model.Product.Name)
+    @Html.HiddenFor(model => model.Product.ID)
 
       <div class="col-md-12">
-          <div class="col-md-8">
-            @Html.DisplayFor(model => model.Product.Name)
+          <div class="col-md-2">
+            <button class="btn btn-danger" type="button" id="removeproductbutton"><span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+          <div class="col-md-4">
+              @Html.DisplayFor(model => model.Product.Name)
           </div>
           <div class="col-md-2">
-            @Html.DisplayFor(model => model.Amount)
+              @Html.DisplayFor(model => model.Amount)
           </div>
           <div class="col-md-2">
-            @Html.DisplayFor(model => model.Price)
+              @Html.DisplayFor(model => model.Price)
           </div>
-
+          <div class="col-md-2">
+              @Html.DisplayFor(model => model.Total)
+          </div>
       </div>
     
-    <button type="button" id="removeproductbutton">Remove</button>
+    
   }
 </div>

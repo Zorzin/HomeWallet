@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeWallet.Models.ReceiptViewModels
 {
@@ -14,5 +15,6 @@ namespace HomeWallet.Models.ReceiptViewModels
       public Product Product { get; set; }
       public double Amount { get; set; }
       public double Price { get; set; }
+      public double Total { get; set; }
     }
 }

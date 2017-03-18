@@ -13,19 +13,19 @@
 
     <div class="receiptcreate">
         <div class="receiptshop">
-          <label>Date</label>
-          <input type="date" asp-for="Date" class="form-control" placeholder="Date" />
+            <label>Date</label>
+          <input type="date" asp-for="Date.Date" class="form-control" placeholder="Date" />
           <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="receiptdate">
           <label>Shop</label>
           <select data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
         </div>
-        <div class="receiptaddproduct">
-          <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
-        </div>
         <div class="receiptproducts">
 
+        </div>
+        <div class="receiptaddproduct">
+          <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
         </div>
         <div class="receiptbuttons">
             <a asp-action="Index" class="btn btn-danger">Cancel</a>
@@ -58,10 +58,11 @@
     </script>
 
     <script>
-      jQuery.noConflict();
+      
 
         var dialog;
         $('#opendialogbutton').click(function () {
+          jQuery.noConflict();
             dialog = $("#productdialog").dialog({
                 autoOpen: true,
                 modal: true,
@@ -90,7 +91,7 @@
 
         $(document).on('click', '#removeproductbutton',
             function () {
-                $(this).parent().remove();
+              $(this).parent().parent().parent().remove();
             });
 
     </script>

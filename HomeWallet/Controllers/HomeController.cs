@@ -46,8 +46,12 @@ namespace HomeWallet.Controllers
         public IActionResult GetReceipts(string lastDate)
         {
             var dates = LoadHomeReceipts.GetDates(lastDate,_context);
-            var model = LoadHomeReceipts.GetHomeReceiptViewModels(dates, _context);
-            return PartialView(model);
+            if (dates!=null)
+            {
+              var model = LoadHomeReceipts.GetHomeReceiptViewModels(dates.ToList(), _context);
+              return PartialView(model);
+            }
+            return null;
         }
     }
 }

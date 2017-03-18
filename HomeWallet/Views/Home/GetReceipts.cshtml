@@ -1,4 +1,4 @@
-@model IEnumerable<HomeWallet.Models.ReceiptViewModels.HomeReceiptViewModel>
+﻿@model IEnumerable<HomeWallet.Models.ReceiptViewModels.HomeReceiptViewModel>
 
 @foreach (var item in Model)
 {
@@ -25,5 +25,15 @@
                 </div>
             </a>
         }
+        <a href="@Url.Action("Create","Receipts", new {date=item.Date})">
+          <div class="col-md-3 col-xs-6 receiptsummary">
+            <div class="shoptextfield">
+              <h1>Add</h1>
+            </div>
+            <div class="pricetextfield">
+              <h3>new</h3>
+            </div>
+          </div>
+        </a>
     </div>
 }

@@ -1,59 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="container">
-    <div class="row dayheader">
-        <div class="col-xs-6 col-md-8 datetextfield">
-            <label class="datefield"> 01.01.0001</label>
-        </div>
-        <div class="col-xs-6 col-md-4 summarybutton">
-            <button class="btn btn-default">Summary</button>
-        </div>
-    </div>
-    <hr />
-    <a href="@Url.Action("Create","Receipts")">
-        <div class="col-md-3 col-xs-6 receiptsummary">
-            <div class="shoptextfield">
-                <h1>Add</h1>
-            </div>
-            <div class="pricetextfield">
-                <h3>new</h3>
-            </div>
-        </div>
-    </a>
-</div>
-
-<div class="container">
-    <div class="row dayheader">
-        <div class="col-xs-6 col-md-8 datetextfield">
-            <label class="datefield"> 02.01.0001</label>
-        </div>
-        <div class="col-xs-6 col-md-4 summarybutton">
-            <button class="btn btn-default">Summary</button>
-        </div>
-    </div>
-    <hr />
-    <a href="#">
-        <div class="col-md-3 col-xs-6 receiptsummary">
-            <div class="shoptextfield">
-                <h1>Add</h1>
-            </div>
-            <div class="pricetextfield">
-                <h3>new</h3>
-            </div>
-        </div>
-    </a>
-</div>
-
+<div class="loading">Loading...</div>
 <div class="morereceipts"></div>
 
+<div class="noreceipts">No more receipts.</div>
 <div class="col-md-12 morebuttondiv">
     <button id="addreceiptbutton" class="btn btn-default showmorebutton">Show More</button>
 </div>
 
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
+  $(document).one('ready', function () {
+        $('.noreceipts').hide();
+        getReceipts(0);
+    });
 
     $('#addreceiptbutton').click(function() {
         var lastId;
@@ -62,12 +23,21 @@
         } else {
             lastId = 0;
         }
-        jQuery.get('/Home/GetReceipts',
-            {
-                lastDate: lastId
-            })
-            .done(function(html) {
-                $('.morereceipts').append(html);
-            });
+        getReceipts(lastId);
     });
+
+    function getReceipts(last) {
+      jQuery.get('/Home/GetReceipts',
+        {
+          lastDate: last
+        })
+        .done(function (html) {
+          $('.morereceipts').append(html);
+          $('.loading').remove();
+        })
+        .fail(function () {
+              $('.noreceipts').show();
+              $('.morebuttondiv').hide();
+          });
+    }
 </script>

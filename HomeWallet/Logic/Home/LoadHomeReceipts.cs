@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
 using HomeWallet.Models.ReceiptViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeWallet.Logic.Home
 {
     public static class LoadHomeReceipts
     {
-        public static IQueryable<DateTime> GetDates(string lastDate, ApplicationDbContext context)
+        public static ICollection<DateTime> GetDates(string lastDate, ApplicationDbContext context)
         {
             DateTime last;
 
@@ -21,19 +22,32 @@ namespace HomeWallet.Logic.Home
             {
               last = DateTime.Parse(lastDate);
             }
-            return context.Receipts
+            var dates = context.Receipts
                       .Where(r => r.PurchaseDate < last)
                       .Select(r => r.PurchaseDate)
                       .OrderBy(r => r.Date)
-                      .Distinct().Take(3);
+                      .Distinct().ToList();
+            if (dates.Count()>3)
+            {
+                return dates.Take(3).ToList();
+            }
+            if (!dates.Any())
+            {
+                return null;
+            }
+            return dates;
         }
 
-        public static List<HomeReceiptViewModel> GetHomeReceiptViewModels(IQueryable<DateTime> dates, ApplicationDbContext context)
+        public static List<HomeReceiptViewModel> GetHomeReceiptViewModels(ICollection<DateTime> dates, ApplicationDbContext context)
         {
             var model = new List<HomeReceiptViewModel>();
-            foreach (var date in dates)
+            foreach (var date in dates.ToList())
             {
-                var receipts = context.Receipts.Where(r => r.PurchaseDate == date).ToList();
+                var receipts = context.Receipts
+                                .Where(r => r.PurchaseDate == date)
+                                .Include(r=>r.ReceiptProducts)
+                                .Include(r=>r.Shop)
+                                .ToList();
                 foreach (var receipt in receipts)
                 {
                     var homeReceiptViewModel = new HomeReceiptViewModel { Date = date };
