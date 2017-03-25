@@ -113,6 +113,26 @@ namespace HomeWallet.Controllers
             return View(addModel);
         }
 
+        public ViewResult CreateShop()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string[] AddShop(Shop model)
+        {
+            var shop = new Shop()
+            {
+                Name = model.Name
+            };
+            _context.Shops.Add(shop);
+            _context.SaveChanges();
+            var result = new string[2];
+            result[0] = shop.ID.ToString();
+            result[1] = shop.Name;
+            return result;
+        }
+
         // GET: Receipts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

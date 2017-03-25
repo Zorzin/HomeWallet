@@ -18,8 +18,9 @@
           <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="receiptdate">
-          <label>Shop</label>
-          <select data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
+            <label>Shop</label>
+            <select id="selectshop" data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
+          <button type="button" id="addshopbutton" class="btn btn-success" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>
         <div class="receiptproducts">
 
@@ -28,7 +29,7 @@
           <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
         </div>
         <div class="receiptbuttons">
-            <a asp-action="Index" class="btn btn-danger">Cancel</a>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Cancel</a>
             <input type="submit" class="btn btn-success" value="Save"/>
         </div>
     </div>
@@ -36,6 +37,7 @@
 
 
 <div id="productdialog"></div>
+<div id="shopdialog"></div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -58,12 +60,36 @@
     </script>
 
     <script>
-      
 
-        var dialog;
+      var productdialog,shopdialog;
+        $('#addshopbutton').click(function() {
+          jQuery.noConflict();
+            shopdialog = $('#shopdialog').dialog({
+                autoOpen: true,
+                modal: true,
+                open: function () {
+                    $(this).load('@Url.Action("CreateShop")');
+                },
+                buttons: {
+                    "Add": function() {
+                        $.ajax({
+                            url: '@Url.Action("AddShop")',
+                            type: 'POST',
+                            data: $("#addshopform").serialize(),
+                            success: function (id) {
+                              $('#selectshop').append("<option value='" + id[0] + "'>" + id[1] + "</option>");
+                              $('.chosen-single-select').trigger('chosen:updated');
+                              shopdialog.dialog('close');
+                            }
+                        });
+                    }
+                }
+        })
+        });
+
         $('#opendialogbutton').click(function () {
           jQuery.noConflict();
-            dialog = $("#productdialog").dialog({
+          productdialog = $("#productdialog").dialog({
                 autoOpen: true,
                 modal: true,
                 open: function() {
@@ -84,7 +110,7 @@
                 data: $("#addproductform").serialize(),
                 success: function (data) {
                     $(".receiptproducts").append(data);
-                    dialog.dialog('close');
+                    productdialog.dialog('close');
                 }
             });
         };
