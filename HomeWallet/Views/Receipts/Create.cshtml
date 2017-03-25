@@ -14,7 +14,7 @@
     <div class="receiptcreate">
         <div class="receiptshop">
             <label>Date</label>
-          <input type="date" asp-for="Date.Date" class="form-control" placeholder="Date" />
+          <input type="date" asp-for="Date" class="form-control" placeholder="Date" value="@Model.Date.ToString("yyyy-MM-dd")"/>
           <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="receiptdate">
@@ -27,6 +27,11 @@
         </div>
         <div class="receiptaddproduct">
           <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
+        </div>
+        <br>
+        <div class="productstotal">
+            <label>Total:</label>
+            <label id="total">0</label>
         </div>
         <div class="receiptbuttons">
             <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Cancel</a>
@@ -110,14 +115,26 @@
                 data: $("#addproductform").serialize(),
                 success: function (data) {
                     $(".receiptproducts").append(data);
+                    Total();
                     productdialog.dialog('close');
                 }
             });
         };
 
+        function Total(){
+            jQuery.noConflict();
+            var totalcost = 0;
+            $('#total').empty();
+            $('.producttotal').each(function(){
+                totalcost+=parseFloat($(this).text());
+            });
+            $('#total').text(totalcost);
+        }
+
         $(document).on('click', '#removeproductbutton',
             function () {
               $(this).parent().parent().parent().remove();
+              Total();
             });
 
     </script>

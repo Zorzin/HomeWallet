@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet.Controllers
 {
     public class ShopsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public ShopsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public ShopsController(ApplicationDbContext context, UserManager<ApplicationUser>  userManager)
         {
             _context = context;    
+            _userManager = userManager;
         }
 
         // GET: Shops
@@ -58,6 +60,7 @@ namespace HomeWallet.Controllers
         {
             if (ModelState.IsValid)
             {
+                shop.UserID = _userManager.GetUserId(HttpContext.User);
                 _context.Add(shop);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");

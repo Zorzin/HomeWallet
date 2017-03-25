@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
 using HomeWallet.Logic.Home;
+using HomeWallet.Models;
 using HomeWallet.Models.ReceiptViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeWallet.Controllers
@@ -13,15 +15,21 @@ namespace HomeWallet.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            return View();
+            if(User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return View("MainPage");
         }
 
         public IActionResult About()
@@ -45,10 +53,10 @@ namespace HomeWallet.Controllers
 
         public IActionResult GetReceipts(string lastDate)
         {
-            var dates = LoadHomeReceipts.GetDates(lastDate,_context);
+            var dates = LoadHomeReceipts.GetDates(lastDate,_userManager.GetUserId(HttpContext.User),_context);
             if (dates!=null)
             {
-              var model = LoadHomeReceipts.GetHomeReceiptViewModels(dates.ToList(), _context);
+              var model = LoadHomeReceipts.GetHomeReceiptViewModels(dates.ToList(),_userManager.GetUserId(HttpContext.User), _context);
               return PartialView(model);
             }
             return null;

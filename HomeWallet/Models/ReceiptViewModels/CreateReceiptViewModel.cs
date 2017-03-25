@@ -10,6 +10,13 @@ namespace HomeWallet.Models.ReceiptViewModels
         public int ShopID {get;set;}
         public ICollection<AddProductViewModel> Products {get;set;} = new List<AddProductViewModel>();
     }
+    public class CreateCyclicalReceiptViewModel
+    {
+        public CreateReceiptViewModel Receipt{get;set;}
+        public int Cycle {get;set;}
+        public DateTime StartDate {get;set;}
+        public DateTime EndDate{get;set;}
+    }
     public class AddProductViewModel
     {
       public Product Product { get; set; }

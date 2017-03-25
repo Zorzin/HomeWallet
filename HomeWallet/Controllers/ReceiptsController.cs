@@ -27,8 +27,7 @@ namespace HomeWallet.Controllers
         // GET: Receipts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Receipts.Include(r => r.Shop).Include(r => r.User);
-            return View(await applicationDbContext.ToListAsync());
+            return RedirectToAction("Index","Home");
         }
 
         // GET: Receipts/Details/5
@@ -62,7 +61,8 @@ namespace HomeWallet.Controllers
             {
                 Date = date.Date
             };
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name");
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["ShopID"] = new SelectList(_context.Shops.Where(s=>s.UserID==userid), "ID", "Name");
             return View(model);
         }
 
@@ -79,15 +79,17 @@ namespace HomeWallet.Controllers
                 CreateProduct.CreateReceiptProducts(model.Products, receipt, _context);
                 return RedirectToAction("Index");
             }
-            ViewData["ShopID"] = new SelectList(_context.Shops, "ID", "Name", model.ShopID);
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["ShopID"] = new SelectList(_context.Shops.Where(s=>s.UserID==userid), "ID", "Name", model.ShopID);
             return View();
         }
 
 
         public PartialViewResult AddProduct()
         {
-          ViewData["Products"] = new SelectList(_context.Products,"ID","Name");
-          return PartialView("CreateProduct");
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["Products"] = new SelectList(_context.Products.Where(p=>p.UserID ==userid),"ID","Name");
+            return PartialView("CreateProduct");
         }
         [HttpPost]
         public ViewResult AddProduct(CreateProductViewModel model)

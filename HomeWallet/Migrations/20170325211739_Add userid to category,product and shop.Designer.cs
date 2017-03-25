@@ -8,9 +8,10 @@ using HomeWallet.Data;
 namespace HomeWallet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170325211739_Add userid to category,product and shop")]
+    partial class Adduseridtocategoryproductandshop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasDefaultSchema("dbo")
