@@ -4,6 +4,8 @@
 <div class="loading">Loading...</div>
 <div class="morereceipts"></div>
 
+<div class="newuser">New user</div>
+
 <div class="noreceipts">No more receipts.</div>
 <div class="col-md-12 morebuttondiv">
     <button id="addreceiptbutton" class="btn btn-default showmorebutton">Show More</button>
@@ -13,6 +15,7 @@
 <script>
   $(document).one('ready', function () {
         $('.noreceipts').hide();
+        $('.newuser').hide();
         getReceipts(0);
     });
 
@@ -36,9 +39,16 @@
           $('.loading').remove();
         })
         .fail(function () {
-              $('.noreceipts').show();
-              $('.morebuttondiv').hide();
-              $('.loading').hide();
+            if($('.morereceipts').is(':empty'))
+            {
+                $('.newuser').show();
+            }
+            else
+            {
+                $('.noreceipts').show();
+            }
+            $('.morebuttondiv').hide();
+            $('.loading').hide();
           });
     }
 </script>

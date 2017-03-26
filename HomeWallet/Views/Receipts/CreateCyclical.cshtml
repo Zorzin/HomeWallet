@@ -1,25 +1,36 @@
-﻿@model HomeWallet.Models.ReceiptViewModels.CreateReceiptViewModel
+@model HomeWallet.Models.ReceiptViewModels.CreateCyclicalReceiptViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Cyclical";
 }
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="~/js/chosen.jquery.js"></script>
 <link rel="stylesheet" href="~/css/chosen.css">
-<h2>Create</h2>
+<h2>Create Cyclical</h2>
 
-<form asp-action="Create">
+<form asp-action="CreateCyclical">
 
     <div class="receiptcreate">
-        <div class="receiptdate">
-          <label>Date</label>
-          <input type="date" asp-for="Date" class="form-control" placeholder="Date" value="@Model.Date.ToString("yyyy-MM-dd")"/>
-          <span asp-validation-for="Date" class="text-danger"></span>
+        <div class="cyclicalstartdate">
+            <label>Start Date</label>
+          <input type="date" asp-for="StartDate" class="form-control" placeholder="Date" value="@Model.StartDate.ToString("yyyy-MM-dd")"/>
+          <span asp-validation-for="StartDate" class="text-danger"></span>
         </div>
+        <div class="cyclicalenddate">
+            <label>End Date</label>
+          <input type="date" asp-for="EndDate" class="form-control" placeholder="Date" value="@Model.EndDate.ToString("yyyy-MM-dd")"/>
+          <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="cyclicalcycle">
+            <label>Cycle</label>
+            <input type="number" asp-for="Cycle" class="form-control" placeholder="Cycle" />
+            <span asp-validation-for="Cycle" class="text-danger"></span>
+        </div>
+        <hr/>
         <div class="receiptshop">
             <label>Shop</label>
-            <select id="selectshop" data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
+            <select id="selectshop" data-placeholder="Select shop" asp-for="Receipt.ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
           <button type="button" id="addshopbutton" class="btn btn-success" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>
         <div class="receiptproducts">
@@ -28,7 +39,7 @@
         <div class="receiptaddproduct">
           <button type="button" id="opendialogbutton" class="btn btn-success">Add product</button>
         </div>
-        <hr>
+        <br>
         <div class="productstotal">
             <label>Total:</label>
             <label id="total">0</label>
@@ -98,7 +109,7 @@
                 autoOpen: true,
                 modal: true,
                 open: function() {
-                    $(this).load('@Url.Action("AddProduct")');
+                    $(this).load('@Url.Action("AddCyclicalProduct")');
                 },
                 buttons: {
                     "Add": function() {
@@ -110,7 +121,7 @@
 
         function AddProduct() {
             $.ajax({
-                url: '@Url.Action("AddProduct")',
+                url: '@Url.Action("AddCyclicalProduct")',
                 type: 'POST',
                 data: $("#addproductform").serialize(),
                 success: function (data) {

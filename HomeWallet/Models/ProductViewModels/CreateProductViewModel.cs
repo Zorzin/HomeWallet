@@ -11,4 +11,5 @@ namespace HomeWallet.Models.ProductViewModels
         public double Price {get;set;}
         public ICollection<int> Categories = new List<int>();
     }
+    
 }

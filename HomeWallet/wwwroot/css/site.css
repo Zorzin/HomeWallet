@@ -118,7 +118,7 @@ textarea {
   margin: auto;
 }
 
-.receiptshop input{
+.receiptshop select{
   display: inline-block;
 }
 .receiptdate{
@@ -126,7 +126,7 @@ textarea {
   text-align: center;
   margin: auto;
 }
-.receiptdate select{
+.receiptdate input{
   display: inline-block;
 }
 

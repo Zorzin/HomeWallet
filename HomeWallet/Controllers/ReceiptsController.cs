@@ -50,6 +50,42 @@ namespace HomeWallet.Controllers
             return View(receipt);
         }
 
+
+        public IActionResult CreateCyclical(DateTime date)
+        {
+            if (date == default(DateTime))
+            {
+                date = DateTime.Today;
+            }
+            var model = new CreateCyclicalReceiptViewModel()
+            {
+                StartDate = date.Date,
+                EndDate = date.Date.AddDays(30)
+            };
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["ShopID"] = new SelectList(_context.Shops.Where(s=>s.UserID==userid), "ID", "Name");
+            return View(model);
+        }
+
+        // POST: Receipts/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCyclical(CreateCyclicalReceiptViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //more to come
+                return RedirectToAction("Index");
+            }
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["ShopID"] = new SelectList(_context.Shops.Where(s=>s.UserID==userid), "ID", "Name", model.Receipt.ShopID);
+            return View();
+        }
+
+
+
         // GET: Receipts/Create
         public IActionResult Create(DateTime date)
         {
@@ -97,7 +133,7 @@ namespace HomeWallet.Controllers
             Product product;
             if (model.isNew)
             {
-                product = CreateProduct.Create(model.Name, _context);
+                product = CreateProduct.Create(model.Name,_userManager.GetUserId(HttpContext.User), _context);
                 model.ProductID = product.ID;
                 CreateProduct.CreateProductCategories(model.Categories, product.ID, _context);
             }
@@ -115,6 +151,19 @@ namespace HomeWallet.Controllers
             return View(addModel);
         }
 
+        public PartialViewResult AddCyclicalProduct()
+        {
+            var userid = _userManager.GetUserId(HttpContext.User);
+            ViewData["Products"] = new SelectList(_context.Products.Where(p=>p.UserID ==userid),"ID","Name");
+            return PartialView("CreateCyclicalProduct");
+        }
+        [HttpPost]
+        public ViewResult AddCyclicalProduct(CreateProductViewModel model)
+        {
+            //more to come
+            return View();
+        }
+
         public ViewResult CreateShop()
         {
             return View();
@@ -125,7 +174,8 @@ namespace HomeWallet.Controllers
         {
             var shop = new Shop()
             {
-                Name = model.Name
+                Name = model.Name,
+                UserID = _userManager.GetUserId(HttpContext.User)
             };
             _context.Shops.Add(shop);
             _context.SaveChanges();

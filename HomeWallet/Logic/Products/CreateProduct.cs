@@ -55,11 +55,12 @@ namespace HomeWallet.Logic.Products
             return receipt;
         }
 
-        public static Product Create(string name, ApplicationDbContext context)
+        public static Product Create(string name,string userid, ApplicationDbContext context)
         {
             var product = new Product()
             {
-                Name = name
+                Name = name,
+                UserID = userid
             };
             context.Products.Add(product);
             context.SaveChanges();
