@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
 using HomeWallet.Models;
+using HomeWallet.Models.ProductViewModels;
 using HomeWallet.Models.ReceiptViewModels;
 using Microsoft.AspNetCore.Http;
 
@@ -11,7 +12,30 @@ namespace HomeWallet.Logic.Products
 {
     public static class CreateProduct
     {
-    
+
+        public static AddProductViewModel CreateModel(CreateProductViewModel model, string userid, ApplicationDbContext context)
+        {
+            Product product;
+            if (model.isNew)
+            {
+                product = CreateProduct.Create(model.Name, userid, context);
+                model.ProductID = product.ID;
+                CreateProduct.CreateProductCategories(model.Categories, product.ID, context);
+            }
+            else
+            {
+                product = context.Products.FirstOrDefault(p => p.ID == model.ProductID);
+            }
+            var addModel = new AddProductViewModel()
+            {
+                Product = product,
+                Amount = model.Amount,
+                Price = model.Price,
+                Total = model.Amount * model.Price
+            };
+            return addModel;
+        }
+
         public static void CreateProductCategories(ICollection<int> categories, int productID, ApplicationDbContext context)
         {
             foreach (var category in categories)

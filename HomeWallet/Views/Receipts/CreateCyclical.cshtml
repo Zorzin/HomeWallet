@@ -1,4 +1,4 @@
-@model HomeWallet.Models.ReceiptViewModels.CreateCyclicalReceiptViewModel
+﻿@model HomeWallet.Models.ReceiptViewModels.CreateCyclicalReceiptViewModel
 @{
     ViewData["Title"] = "Create Cyclical";
 }
@@ -30,7 +30,7 @@
         <hr/>
         <div class="receiptshop">
             <label>Shop</label>
-            <select id="selectshop" data-placeholder="Select shop" asp-for="Receipt.ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
+            <select id="selectshop" data-placeholder="Select shop" asp-for="ShopID" class ="form-control chosen-single-select" asp-items="ViewBag.ShopID"></select>
           <button type="button" id="addshopbutton" class="btn btn-success" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>
         <div class="receiptproducts">
@@ -109,7 +109,7 @@
                 autoOpen: true,
                 modal: true,
                 open: function() {
-                    $(this).load('@Url.Action("AddCyclicalProduct")');
+                    $(this).load('@Url.Action("AddProduct")');
                 },
                 buttons: {
                     "Add": function() {
