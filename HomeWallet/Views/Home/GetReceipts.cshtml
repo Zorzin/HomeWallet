@@ -8,7 +8,7 @@
                 <label class="datefield">@Html.DisplayFor(modelitem =>item.Date)</label>
             </div>
             <div class="col-xs-6 col-md-4 summarybutton">
-                <button class="btn btn-default">Summary</button>
+                <a class="btn btn-default" asp-action="Index" asp-controller="DailySummary" asp-route-date="@item.Date">Summary</a>
             </div>
         </div>
         <hr />

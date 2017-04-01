@@ -1,0 +1,23 @@
+﻿@model HomeWallet.Models.Plan
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+  <p>I want to spend no more than</p>
+  <input type="number" min="0" asp-for="Amount" class="form-control" />
+  <p>starting from </p>
+  <input type="date" value="@Model.StartDate.ToString("yyyy-MM-dd")" asp-for="StartDate" class="form-control" />
+  <p>to</p>
+  <input type="date" value="@Model.EndDate.ToString("yyyy-MM-dd")" asp-for="EndDate" class="form-control" />
+
+  <input type="submit" value="Save" class="btn btn-default" />
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

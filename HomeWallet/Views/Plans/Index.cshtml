@@ -1,0 +1,18 @@
+﻿@model HomeWallet.Models.PlanViewModels.ViewPlanViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<p>
+    Your plan is to spend less than @Model.Amount
+</p>
+<p>Start day: @Model.StartDate</p>
+<p>End day: @Model.EndDate</p>
+<p>Days left: @Model.DaysLeft</p>
+<p>
+    To this day You spend @Model.Already which is @Model.Percent %. You have @Model.MoneyLeft to spend.
+</p>
+
+<div>
+  <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+</div>
