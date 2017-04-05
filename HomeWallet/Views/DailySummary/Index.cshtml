@@ -1,7 +1,11 @@
-﻿
+﻿@model HomeWallet.Models.DailySummaryViewModels.DailySummaryViewModel
 @{
     ViewData["Title"] = "Index";
 }
-
-<h2>Index</h2>
+ 
+<p>You spend in total @Model.TotalCost</p>
+@if(@Model.Percent != -1)
+{
+<p>That's @Model.Percent% of your plan</p>
+}
 
