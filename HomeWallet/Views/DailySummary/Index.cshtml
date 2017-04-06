@@ -1,11 +1,100 @@
 ﻿@model HomeWallet.Models.DailySummaryViewModels.DailySummaryViewModel
+@using Highsoft.Web.Mvc.Charts
 @{
     ViewData["Title"] = "Index";
 }
- 
-<p>You spend in total @Model.TotalCost</p>
-@if(@Model.Percent != -1)
-{
-<p>That's @Model.Percent% of your plan</p>
-}
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
+
+
+<div class="col-md-12 col-sm-12 dailysummarydate">
+    <p>Date: @Model.Date</p>
+</div>
+<div class="col-md-12 col-sm-12">
+    <div class="col-md-6 col-sm-12">
+        <div class="col-md-12 col-sm-12 dailysummarytext">
+            <p>You spend</p>
+            <p>@Model.TotalCost @Model.Currency</p>
+            <p>that day</p>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        @if(@Model.Percent != -1)
+        {
+            <div class="col-md-12 col-sm-12 dailysummarytext">
+                <p>That's @Model.Percent% of your plan</p>
+            </div>
+            @(Html.Highsoft().Highcharts(
+                new Highcharts
+                {
+                    Chart = new Chart
+                    {
+                        BackgroundColor=null,
+                        PlotBackgroundColor = null,
+                        PlotBorderWidth = null,
+                        PlotShadow = new Shadow
+                        {
+                            Enabled = false
+                        }
+                    },
+                    Title = new Title
+                    {
+                        Text = ""
+                    },
+                    Tooltip = new Tooltip
+                    {
+                        PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+                    },
+                    PlotOptions = new PlotOptions
+                    {
+                        Pie = new PlotOptionsPie
+                        {
+                            BorderColor = null,
+                            AllowPointSelect = true,
+                            Cursor = PlotOptionsPieCursor.Pointer,
+                            DataLabels = new PlotOptionsPieDataLabels
+                            {
+                                Distance = -35,
+                                Enabled = true,
+                                Format = "{point.percentage:.1f} %"
+                            },
+                            ShowInLegend = false
+                        }
+                    },          
+                    Series = new List<Series>
+                    {                    
+                        new PieSeries
+                        {                    
+                            Name = "Usage",
+                            Data = @ViewData["pieData"] as List<PieSeriesData>
+                        },
+                        
+                    }
+                }
+                , "chart")
+            )
+        }
+    </div>
+</div>
+
+
+
+
+<div class="col-md-12 col-sm-12 dailysummarytext">
+    <p>Check other summaries</p>
+</div>
+
+<div class="col-md-12 col-sm-12 dailysummarybuttons">
+    <div class="col-md-4 col-sm-12">
+        <a class="btn btn-default" asp-action="Index" asp-controller="Plans" >Plan</a>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <a class="btn btn-default" asp-action="Index" asp-controller="Home" >Monthly</a>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <a class="btn btn-default" asp-action="Index" asp-controller="Home" >XXX</a>
+    </div>
+</div>

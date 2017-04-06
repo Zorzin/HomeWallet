@@ -30,7 +30,7 @@ namespace HomeWallet.Logic.DailySummary
             var plan = context.Plans.FirstOrDefault(p=>p.UserID == userid && p.StartDate<= date && p.EndDate>= date);
             if(plan!=null)
             {
-                return 100*total/plan.Amount;
+                return Math.Round(100*total/plan.Amount,1);
             }
             return -1;
         }

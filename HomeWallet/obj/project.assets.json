@@ -11,6 +11,19 @@
           "lib/netstandard1.6/BeginCollectionItemCore.dll": {}
         }
       },
+      "Highsoft.Web.Mvc/5.0.7.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.1.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/Highsoft.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/Highsoft.Web.Mvc.dll": {}
+        }
+      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -4329,6 +4342,23 @@
         "begincollectionitemcore.nuspec",
         "lib/net461/BeginCollectionItemCore.dll",
         "lib/netstandard1.6/BeginCollectionItemCore.dll"
+      ]
+    },
+    "Highsoft.Web.Mvc/5.0.7.3": {
+      "sha512": "Mkcm45QY4k6QzsS6DO2nFUGFsAxVx6IULhpFKXxC0EK7pitHfb8Jox2rWjyiTjS88rstHKgIvJe1jthB23H0cQ==",
+      "type": "package",
+      "path": "highsoft.web.mvc/5.0.7.3",
+      "files": [
+        "highsoft.web.mvc.5.0.7.3.nupkg.sha512",
+        "highsoft.web.mvc.nuspec",
+        "lib/net451/Highsoft.Web.Mvc.dll",
+        "lib/net452/Highsoft.Web.Mvc.dll",
+        "lib/net461/Highsoft.Web.Mvc.dll",
+        "lib/net461/Highsoft.Web.Mvc.dll.config",
+        "lib/net462/Highsoft.Web.Mvc.dll",
+        "lib/net462/Highsoft.Web.Mvc.dll.config",
+        "lib/netcoreapp1.0/Highsoft.Web.Mvc.deps.json",
+        "lib/netcoreapp1.0/Highsoft.Web.Mvc.dll"
       ]
     },
     "Libuv/1.9.1": {
@@ -11125,6 +11155,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v1.1": [
       "BeginCollectionItemCore >= 1.0.7",
+      "Highsoft.Web.Mvc >= 5.0.7.3",
       "Microsoft.ApplicationInsights.AspNetCore >= 2.0.0",
       "Microsoft.AspNetCore >= 1.1.0",
       "Microsoft.AspNetCore.Authentication.Cookies >= 1.1.0",
@@ -11235,6 +11266,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "1.1.0"
+          },
+          "Highsoft.Web.Mvc": {
+            "target": "Package",
+            "version": "5.0.7.3"
           },
           "Microsoft.NETCore.App": {
             "target": "Package",

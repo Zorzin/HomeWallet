@@ -1,7 +1,17 @@
 @{
     Layout = "_MainPageLayout";
 }
-
-<h3 class="mainpageheader">Home Wallet</h3>
-<a class="btn btn-default" asp-controller="Account" asp-action="Register">Register</a>
-<a class="btn btn-default" asp-controller="Account" asp-action="Login">Log in</a>
+<div class="mainphoto">
+    <div class="mainheader">
+        <h1 class="maintitle">Home Wallet</h1>
+        <h2 class="maintext">Your home financial app</h2>
+    </div>
+    <div>
+        <div class="col-md-6 col-sm-12 registerbutton">
+            <a class="btn btn-info " asp-controller="Account" asp-action="Register">Register</a>
+        </div>
+        <div class="col-md-6 col-sm-12 loginbutton">
+            <a class="btn btn-success" asp-controller="Account" asp-action="Login">Log in</a>
+        </div>
+    </div>
+</div>

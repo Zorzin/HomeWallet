@@ -1,6 +1,8 @@
 ﻿body {
+    background-color: rgba(0,0,0,.7);
     padding-top: 50px;
     padding-bottom: 20px;
+    color: white;
 }
 
 /* Wrapping element */
@@ -72,15 +74,20 @@ textarea {
 }
 
 .receiptsummary {
-    background-image: url(../images/receipt.png);
+    border: 1px solid white;
+    background-color: rgba(0,0,0,.5);
     width: 180px;
     height: 300px;
     margin: 20px;
     text-align: center;
+}
 
+.receiptsummary:hover{
+    background-color: rgba(0,0,0,.8);
 }
 
 .shoptextfield {
+    color: white;
     width: 100%;
 }
 
@@ -91,6 +98,7 @@ textarea {
 
 .pricetextfield {
 
+    color: white;
 }
 
 .showmorebutton {
@@ -103,13 +111,12 @@ textarea {
 
 .receiptcreate{
     margin: auto;
-    padding-top: 70px;
-    background: url(../images/bigreceipt.png);
-    background-size: 480px 720px;
-    width: 480px;
-    height: 720px;
-    left: 50;
+    padding: 30px;
+    min-height: 50vh;
+    border: 1px solid white;
+    background-color: rgba(0,0,0,.5);
     text-align: center;
+    display: table;
 }
 
 .receiptshop{
@@ -140,7 +147,81 @@ textarea {
   font-size: 30px;
 }
 
-.mainpageheader{
+.maintitle{
     font-size: 60px;
+    color: white;
+}
+
+.maintext{
+color: white;
+}
+.mainheader
+{
+    padding: 50px;;
+}
+.mainphoto{
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    background: url(../images/mainpage.jpg) no-repeat center center fixed;
+}
+.registerbutton{
+    text-align: right;
+}
+.loginbutton{
+    text-align: left;
+}
+
+@media (max-width: 992px) { 
+    .registerbutton{
+    margin: 20px;
+        text-align: center;
+    }
+    .loginbutton{
+    margin: 20px;
+        text-align: center;
+    }
+}
+
+.registerbutton a{
+    font-size: 20px;
+}
+.loginbutton a{
+    font-size: 20px;
+}
+
+
+.dailysummarydate{
+    margin-top: 50px;
+    font-size: 70px;
     text-align: center;
+}
+
+.dailysummarychart
+{
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+.dailysummarytext
+{
+    margin-top: 50px;
+    font-size: 30px;
+    text-align: center;
+}
+
+
+.dailysummarybuttons
+{
+    text-align: center;
+}
+.dailysummarybuttons a
+{
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
