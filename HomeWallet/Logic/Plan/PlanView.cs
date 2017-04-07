@@ -33,5 +33,18 @@ namespace HomeWallet.Logic.Plan
         {
             return (end - DateTime.Today).Days;
         }
+        
+        public static int GetDaysBehind(DateTime start, DateTime end)
+        {
+            var left = GetDaysLeft(end);
+            var alldays = (end - start).Days;
+            return alldays - left;
+        }
+        public static double GetAveragePerDay(string userid, DateTime startDate, DateTime endDate, ApplicationDbContext context, double plan)
+        {
+            var already = GetMoneyLeft(userid,startDate,endDate,context,plan);
+            var days = GetDaysLeft(endDate);
+            return Math.Round(already / days,2);
+        }
     }
 }

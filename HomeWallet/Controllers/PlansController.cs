@@ -10,6 +10,7 @@ using HomeWallet.Logic.Plan;
 using HomeWallet.Models;
 using HomeWallet.Models.PlanViewModels;
 using Microsoft.AspNetCore.Identity;
+using Highsoft.Web.Mvc.Charts;
 
 namespace HomeWallet.Controllers
 {
@@ -30,17 +31,34 @@ namespace HomeWallet.Controllers
             var plan = _context.Plans.FirstOrDefault(p => p.UserID == _userManager.GetUserId(HttpContext.User));
             if (plan!=null)
             {
+                var percent = PlanView.GetPercentageSpend(_userManager.GetUserId(HttpContext.User), plan.StartDate,
+                    plan.EndDate, _context, plan.Amount);
+                var daysleft = PlanView.GetDaysLeft(plan.EndDate);
                 var model = new ViewPlanViewModel()
                 {
                     StartDate = plan.StartDate.ToString("dd-MM-yyyy"),
                     EndDate = plan.EndDate.ToString("dd-MM-yyyy"),
                     Amount = plan.Amount,
-                    DaysLeft =  PlanView.GetDaysLeft(plan.EndDate),
+                    DaysLeft = daysleft,
                     Already = PlanView.GetAlreadySpend(_userManager.GetUserId(HttpContext.User),plan.StartDate,plan.EndDate,_context),
                     MoneyLeft = PlanView.GetMoneyLeft(_userManager.GetUserId(HttpContext.User), plan.StartDate, plan.EndDate, _context,plan.Amount),
-                    Percent = PlanView.GetPercentageSpend(_userManager.GetUserId(HttpContext.User), plan.StartDate, plan.EndDate, _context,plan.Amount),
+                    Percent = percent,
+                    Average = PlanView.GetAveragePerDay(_userManager.GetUserId(HttpContext.User), plan.StartDate, plan.EndDate, _context, plan.Amount),
+                    Currency = "zł",
                     Id = plan.ID
                 };
+
+                List<PieSeriesData> pieData = new List<PieSeriesData>();
+
+                pieData.Add(new PieSeriesData { Name = "Left", Y = 100-percent, Sliced = true, Selected = true, Color = "#222" });
+                pieData.Add(new PieSeriesData { Name = "Already", Y = percent, Sliced = true, Selected = true, Color = "white" });
+                ViewData["circleData"] = pieData;
+
+                List<PieSeriesData> halfData = new List<PieSeriesData>();
+                halfData.Add(new PieSeriesData { Name = "Days behind", Y = PlanView.GetDaysBehind(plan.StartDate, plan.EndDate), Color = "#222" });
+                halfData.Add(new PieSeriesData { Name = "Days left", Y = daysleft, Color = "white" });
+                ViewData["halfData"] = halfData;
+        
                 return View(model);   
             }
             return View("Create");

@@ -1,18 +1,168 @@
-﻿@model HomeWallet.Models.PlanViewModels.ViewPlanViewModel
+﻿@using Highsoft.Web.Mvc.Charts
+@model HomeWallet.Models.PlanViewModels.ViewPlanViewModel
 
+<script src="http://code.highcharts.com/highcharts.js"></script>
 @{
     ViewData["Title"] = "Index";
 }
-<p>
-    Your plan is to spend less than @Model.Amount
-</p>
-<p>Start day: @Model.StartDate</p>
-<p>End day: @Model.EndDate</p>
-<p>Days left: @Model.DaysLeft</p>
-<p>
-    To this day You spend @Model.Already which is @Model.Percent %. You have @Model.MoneyLeft to spend.
-</p>
+
+<div class="col-md-12 planviewheader">
+    <p>Plan for @Model.StartDate - @Model.EndDate</p>
+</div>
+
+<div class="col-md-12">
+    <div class="col-md-6 planviewtext">
+        <p>You wnat to spend no more than @Model.Amount @Model.Currency</p>
+    </div>
+    <div class="col-md-6 planviewbig">
+        <p>@Model.Amount @Model.Currency</p>
+    </div>
+</div>
+
+<hr class="planhr"/>
+
+<div class="col-md-12">
+    <div class="col-md-6">
+        @(Html.Highsoft().Highcharts(
+              new Highcharts
+              {
+                Chart = new Chart
+                {
+                  BackgroundColor = null,
+                  PlotBackgroundColor = null,
+                  PlotBorderWidth = null,
+                  PlotShadow = new Shadow
+                  {
+                    Enabled = false
+                  }
+                },
+                Title = new Title
+                {
+                  Text = ""
+                },
+                Tooltip = new Tooltip
+                {
+                  BorderColor = null,
+                  BorderWidth = null,
+                  BorderRadius = null,
+                  PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+                },
+                PlotOptions = new PlotOptions
+                {
+                  Pie = new PlotOptionsPie
+                  {
+                    BorderColor = null,
+                    AllowPointSelect = true,
+                    Cursor = PlotOptionsPieCursor.Pointer,
+                    DataLabels = new PlotOptionsPieDataLabels
+                    {
+                      Distance = -35,
+                      BorderColor = null,
+                      BorderWidth = null,
+                      BorderRadius = null,
+                      Enabled = true,
+                      Format = "<b>{point.name}</b>: {point.percentage:.1f} %"
+                    }
+                  }
+                },
+                Series = new List<Series>
+                  {
+                      new PieSeries
+                      {
+                          Name = "Percentage",
+                          Data = ViewData["circleData"] as List<PieSeriesData>
+                      }
+                  }
+              }
+              , "chart")
+              )
+    </div>
+    <div class="col-md-6 planviewtext">
+        <p>To this day you spend @Model.Already @Model.Currency which is @Model.Percent%</p>
+        <p>You have @Model.MoneyLeft @Model.Currency left</p>
+    </div>
+</div>
+
+<hr class="planhr"/>
+
+<div class="col-md-12">
+    <div class="col-md-6 planviewtext">
+        <p>@Model.DaysLeft days left until the end of the plan</p>
+    </div>
+    <div class="col-md-6">
+        @(Html.Highsoft().Highcharts(
+        new Highcharts
+        {
+          Chart = new Chart
+          {
+            BackgroundColor = null,
+            PlotBackgroundColor = null,
+            PlotBorderWidth = 0,
+            PlotShadow = new Shadow
+            {
+              Enabled = false
+            }
+          },
+          Title = new Title
+          {
+            Text = "",
+            Align = TitleAlign.Center,
+            VerticalAlign = TitleVerticalAlign.Middle,
+            Y = 40
+          },
+          Tooltip = new Tooltip
+          {
+            BorderColor = null,
+            BorderWidth = null,
+            BorderRadius = null,
+            PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+          },
+          PlotOptions = new PlotOptions
+          {
+            Pie = new PlotOptionsPie
+            {
+              DataLabels = new PlotOptionsPieDataLabels
+              {
+                Format = "<b>{point.name}</b> <br/> {point.percentage:.1f} %",
+                BorderColor = null,
+                BorderWidth = null,
+                BorderRadius = null,
+                Enabled = true,
+                Distance = -450
+              },
+              StartAngle = -90,
+              EndAngle = 90,
+              Center = new string[] { "50%", "75%" }
+            }
+          },
+          Series = new List<Series>
+            {
+                new PieSeries
+                {
+                    Name = "Percentage",
+                    InnerSize = "50%",
+                    Data = @ViewData["halfData"] as List<PieSeriesData>
+                },
+
+            }
+        }
+        , "charttwo")
+        )
+    </div>
+</div>
+
+<hr class="planhr"/>
+
+<div class="col-md-12">
+    <div class="col-md-6 planviewbig">
+        <p>@Model.Average @Model.Currency</p>
+    </div>
+    <div class="col-md-6 planviewtext">
+        <p>On average you have to spend no more than @Model.Average @Model.Currency a day</p>
+    </div>
+</div>
+
 
 <div>
-  <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </div>

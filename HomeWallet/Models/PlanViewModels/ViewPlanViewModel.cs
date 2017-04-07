@@ -15,5 +15,7 @@ namespace HomeWallet.Models.PlanViewModels
         public double Already { get; set; }
         public double Percent { get; set; }
         public double MoneyLeft { get; set; }
+        public double Average { get; set; }
+        public string Currency { get; set; }
     }
 }

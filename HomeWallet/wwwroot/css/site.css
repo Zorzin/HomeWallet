@@ -119,12 +119,37 @@ textarea {
     display: table;
 }
 
-.receiptshop{
+.tableheaders {
+    width: 100%;
+}
+
+
+.receiptproducts {
+  width: 100%;
+}
+
+
+.totalhr {
+    width: 100%;
+}
+
+
+.receiptshop {
   width: 100%;
   text-align: center;
   margin: auto;
 }
-
+.receiptshopbutton {
+  display: inline-table;
+}
+.receiptshoplabel {
+  display: inline-table;
+  width: 20%;
+}
+.receiptshopselect {
+  display: inline-table;
+  width: 60%;
+}
 .receiptshop select{
   display: inline-block;
 }
@@ -224,4 +249,27 @@ color: white;
     width: 100%;
     margin-bottom: 20px;
     margin-top: 20px;
+}
+
+/*PLAN*/
+
+.planviewheader {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 50px;
+}
+
+.planviewbig {
+  text-align: center;
+  font-size: 50px;
+}
+
+.planviewtext {
+    text-align: center;
+    font-size: 30px;
+}
+
+.planhr {
+    border: 1px solid white;
+    width: 100%;
 }
