@@ -11180,10 +11180,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Zorzin\\Documents\\Visual Studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\HomeWallet.csproj",
+      "projectUniqueName": "C:\\Users\\Zorzin\\Documents\\visual studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\HomeWallet.csproj",
       "projectName": "HomeWallet",
-      "projectPath": "C:\\Users\\Zorzin\\Documents\\Visual Studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\HomeWallet.csproj",
-      "outputPath": "C:\\Users\\Zorzin\\Documents\\Visual Studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\obj\\",
+      "projectPath": "C:\\Users\\Zorzin\\Documents\\visual studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\HomeWallet.csproj",
+      "outputPath": "C:\\Users\\Zorzin\\Documents\\visual studio 2017\\Projects\\HomeWallet\\HomeWallet\\HomeWallet\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"

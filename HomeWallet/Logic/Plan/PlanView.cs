@@ -20,7 +20,7 @@ namespace HomeWallet.Logic.Plan
         {
             var already = GetAlreadySpend(userid, startDate,endDate, context);
             var result = 100 * already / plan;
-            return result;
+            return Math.Round(result,1);
         }
 
         public static double GetMoneyLeft(string userid, DateTime startDate, DateTime endDate, ApplicationDbContext context, double plan)

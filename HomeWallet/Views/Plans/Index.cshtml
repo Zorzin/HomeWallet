@@ -1,5 +1,11 @@
-﻿@using Highsoft.Web.Mvc.Charts
+﻿@using System.Collections
+@using Highsoft.Web.Mvc.Charts
 @model HomeWallet.Models.PlanViewModels.ViewPlanViewModel
+
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery.incremental-counter.js"></script>
+
 
 <script src="http://code.highcharts.com/highcharts.js"></script>
 @{
@@ -11,61 +17,73 @@
 </div>
 
 <div class="col-md-12">
-    <div class="col-md-6 planviewtext">
-        <p>You wnat to spend no more than @Model.Amount @Model.Currency</p>
+    <div class="col-md-4 col-md-offset-1 planviewtextnochart">
+        <p>You want to spend no more than @Model.Amount @Model.Currency</p>
     </div>
-    <div class="col-md-6 planviewbig">
-        <p>@Model.Amount @Model.Currency</p>
+    <div class="col-md-6 col-md-offset-1">
+      <div class="incremental-counter" data-value="@Model.Amount"></div>
+
     </div>
 </div>
 
 <hr class="planhr"/>
 
-<div class="col-md-12">
+<div class="col-md-12 chartdiv">
     <div class="col-md-6">
         @(Html.Highsoft().Highcharts(
               new Highcharts
               {
-                Chart = new Chart
-                {
-                  BackgroundColor = null,
-                  PlotBackgroundColor = null,
-                  PlotBorderWidth = null,
-                  PlotShadow = new Shadow
+                  Chart = new Chart
                   {
-                    Enabled = false
-                  }
-                },
-                Title = new Title
-                {
-                  Text = ""
-                },
-                Tooltip = new Tooltip
-                {
-                  BorderColor = null,
-                  BorderWidth = null,
-                  BorderRadius = null,
-                  PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
-                },
-                PlotOptions = new PlotOptions
-                {
-                  Pie = new PlotOptionsPie
+                      BackgroundColor = null,
+                      PlotBackgroundColor = null,
+                      PlotBorderWidth = null,
+                      PlotShadow = new Shadow
+                      {
+                          Enabled = false
+                      }
+                  },
+                  Title = new Title
                   {
-                    BorderColor = null,
-                    AllowPointSelect = true,
-                    Cursor = PlotOptionsPieCursor.Pointer,
-                    DataLabels = new PlotOptionsPieDataLabels
-                    {
-                      Distance = -35,
+                      Text = ""
+                  },
+                  Tooltip = new Tooltip
+                  {
                       BorderColor = null,
                       BorderWidth = null,
                       BorderRadius = null,
-                      Enabled = true,
-                      Format = "<b>{point.name}</b>: {point.percentage:.1f} %"
-                    }
-                  }
-                },
-                Series = new List<Series>
+                      PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+                  },
+                  PlotOptions = new PlotOptions
+                  {
+                      Pie = new PlotOptionsPie
+                      {
+                          BorderColor = null,
+                          AllowPointSelect = true,
+                          Cursor = PlotOptionsPieCursor.Pointer,
+                          DataLabels = new PlotOptionsPieDataLabels
+                          {
+                              Distance = -35,
+                              BorderColor = null,
+                              BorderWidth = null,
+                              BorderRadius = null,
+                              Enabled = true,
+                              Format = "{point.name}: {point.percentage:.1f} %",
+                              Style = new Hashtable
+                              {
+                                  {
+                                      "fontWeight",
+                                      "normal"
+                                  },
+                                  {
+                                      "textOutline",
+                                      "false"
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  Series = new List<Series>
                   {
                       new PieSeries
                       {
@@ -77,87 +95,97 @@
               , "chart")
               )
     </div>
-    <div class="col-md-6 planviewtext">
-        <p>To this day you spend @Model.Already @Model.Currency which is @Model.Percent%</p>
-        <p>You have @Model.MoneyLeft @Model.Currency left</p>
-    </div>
+    <div class="col-md-4 col-md-offset-1 planviewtextchart">
+        <p>To this day you spend @Model.Already @Model.Currency which is @Model.Percent%. You have @Model.MoneyLeft @Model.Currency left.</p>
+        </div>
 </div>
 
 <hr class="planhr"/>
 
-<div class="col-md-12">
-    <div class="col-md-6 planviewtext">
+<div class="col-md-12 chartdiv">
+    <div class="col-md-4 col-md-offset-1 planviewtextchart">
         <p>@Model.DaysLeft days left until the end of the plan</p>
     </div>
-    <div class="col-md-6">
-        @(Html.Highsoft().Highcharts(
-        new Highcharts
-        {
-          Chart = new Chart
-          {
-            BackgroundColor = null,
-            PlotBackgroundColor = null,
-            PlotBorderWidth = 0,
-            PlotShadow = new Shadow
+    <div class="col-md-6 col-md-offset-1">
+        @Html.Highsoft().Highcharts(
+            new Highcharts
             {
-              Enabled = false
-            }
-          },
-          Title = new Title
-          {
-            Text = "",
-            Align = TitleAlign.Center,
-            VerticalAlign = TitleVerticalAlign.Middle,
-            Y = 40
-          },
-          Tooltip = new Tooltip
-          {
-            BorderColor = null,
-            BorderWidth = null,
-            BorderRadius = null,
-            PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
-          },
-          PlotOptions = new PlotOptions
-          {
-            Pie = new PlotOptionsPie
-            {
-              DataLabels = new PlotOptionsPieDataLabels
+              Chart = new Chart
               {
-                Format = "<b>{point.name}</b> <br/> {point.percentage:.1f} %",
+                BackgroundColor = null,
+                PlotBackgroundColor = null,
+                PlotBorderWidth = 0,
+                PlotShadow = new Shadow
+                {
+                  Enabled = false
+                }
+              },
+              Title = new Title
+              {
+                Text = "",
+                Align = TitleAlign.Center,
+                VerticalAlign = TitleVerticalAlign.Middle,
+                Y = 40
+              },
+              Tooltip = new Tooltip
+              {
                 BorderColor = null,
                 BorderWidth = null,
                 BorderRadius = null,
-                Enabled = true,
-                Distance = -450
+                PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
               },
-              StartAngle = -90,
-              EndAngle = 90,
-              Center = new string[] { "50%", "75%" }
-            }
-          },
-          Series = new List<Series>
-            {
-                new PieSeries
+              PlotOptions = new PlotOptions
+              {
+                Pie = new PlotOptionsPie
                 {
-                    Name = "Percentage",
-                    InnerSize = "50%",
-                    Data = @ViewData["halfData"] as List<PieSeriesData>
-                },
-
+                  BorderColor = null,
+                  DataLabels = new PlotOptionsPieDataLabels
+                  {
+                    
+                    Format = "{point.name} <br/> {point.percentage:.1f} %",
+                    BorderColor = null,
+                    BorderWidth = null,
+                    BorderRadius = null,
+                    Enabled = true,
+                    Distance = -35,
+                    Style = new Hashtable
+                    {
+                        {
+                            "fontWeight",
+                            "normal"
+                        },
+                        {
+                            "textOutline",
+                            "false"
+                        }
+                    }
+                  },
+                  StartAngle = -90,
+                  EndAngle = 90,
+                  Center = new[] {"50%", "75%"}
+                }
+              },
+              Series = new List<Series>
+                {
+                    new PieSeries
+                    {
+                        Name = "Percentage",
+                        InnerSize = "50%",
+                        Data = ViewData["halfData"] as List<PieSeriesData>
+                    }
+                }
             }
-        }
-        , "charttwo")
-        )
+            , "charttwo")
     </div>
 </div>
 
 <hr class="planhr"/>
 
 <div class="col-md-12">
-    <div class="col-md-6 planviewbig">
-        <p>@Model.Average @Model.Currency</p>
+    <div class="col-md-6">
+      <div class="incremental-counteraverage" data-value="@Model.Average"></div>
     </div>
-    <div class="col-md-6 planviewtext">
+    <div class="col-md-4 col-md-offset-1 planviewtextnochart">
         <p>On average you have to spend no more than @Model.Average @Model.Currency a day</p>
     </div>
 </div>
@@ -166,3 +194,34 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 </div>
+
+<script>
+    $(".incremental-counter").incrementalCounter({
+        "digits": @Model.Amount.ToString().Length
+
+    });
+
+    $(".incremental-counteraverage").incrementalCounter({
+        "digits": @Model.Average.ToString().Length
+    });
+
+
+
+</script>
+
+@*<script>
+  $('.incremental-counter').numerator({
+      easing: 'linear', // easing options.
+      duration: 2000, // the length of the animation.
+      delimiter: ',',
+      rounding: 2, // decimal places.
+      toValue: @Model.Amount // animate to this value.
+  })
+  $('.incremental-counteraverage').numerator({
+    easing: 'linear', // easing options.
+    duration: 2000, // the length of the animation.
+    delimiter: ',',
+    rounding: 2, // decimal places.
+    toValue: @Model.Average // animate to this value.
+  })
+</script>*@

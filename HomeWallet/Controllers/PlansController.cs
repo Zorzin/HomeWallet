@@ -38,7 +38,7 @@ namespace HomeWallet.Controllers
                 {
                     StartDate = plan.StartDate.ToString("dd-MM-yyyy"),
                     EndDate = plan.EndDate.ToString("dd-MM-yyyy"),
-                    Amount = plan.Amount,
+                    Amount = Math.Round(plan.Amount,2),
                     DaysLeft = daysleft,
                     Already = PlanView.GetAlreadySpend(_userManager.GetUserId(HttpContext.User),plan.StartDate,plan.EndDate,_context),
                     MoneyLeft = PlanView.GetMoneyLeft(_userManager.GetUserId(HttpContext.User), plan.StartDate, plan.EndDate, _context,plan.Amount),

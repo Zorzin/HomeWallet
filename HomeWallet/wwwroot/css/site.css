@@ -1,54 +1,55 @@
 ﻿body {
-    background-color: rgba(0,0,0,.7);
-    padding-top: 50px;
-    padding-bottom: 20px;
+    background-color: rgba(0, 0, 0, .7);
     color: white;
+    padding-bottom: 20px;
+    padding-top: 50px;
 }
 
 /* Wrapping element */
+
 /* Set some basic padding to keep content from hitting the edges */
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
+
 input,
 select,
-textarea {
-    max-width: 280px;
-}
+textarea { max-width: 280px; }
 
 /* Carousel */
+
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
 }
 
 /* buttons and links extension to use brackets: [ click me ] */
+
 .btn-bracketed::before {
-    display: inline-block;
     content: "[";
+    display: inline-block;
     padding-right: 0.5em;
 }
 
 .btn-bracketed::after {
-    display: inline-block;
     content: "]";
+    display: inline-block;
     padding-left: 0.5em;
 }
 
 /* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
+
+.carousel-inner .item img[src$=".svg"] { width: 100%; }
 
 /* Hide/rearrange for smaller screens */
+
 @media screen and (max-width: 767px) {
     /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+    .carousel-caption { display: none; }
 }
 
 
@@ -60,13 +61,11 @@ textarea {
 }
 
 .datetextfield {
-    line-height: 50px;
     font-size: 30px;
+    line-height: 50px;
 }
 
-.summarybutton {
-    height: 100%;
-}
+.summarybutton { height: 100%; }
 
 .summarybutton a {
     float: right;
@@ -74,17 +73,15 @@ textarea {
 }
 
 .receiptsummary {
+    background-color: rgba(0, 0, 0, .5);
     border: 1px solid white;
-    background-color: rgba(0,0,0,.5);
-    width: 180px;
     height: 300px;
     margin: 20px;
     text-align: center;
+    width: 180px;
 }
 
-.receiptsummary:hover{
-    background-color: rgba(0,0,0,.8);
-}
+.receiptsummary:hover { background-color: rgba(0, 0, 0, .8); }
 
 .shoptextfield {
     color: white;
@@ -96,180 +93,226 @@ textarea {
     margin-top: 50%;
 }
 
-.pricetextfield {
+.pricetextfield { color: white; }
 
-    color: white;
-}
+.showmorebutton { width: 300px; }
 
-.showmorebutton {
-    width: 300px;
-}
+.morebuttondiv { text-align: center; }
 
-.morebuttondiv {
-    text-align: center;
-}
-
-.receiptcreate{
-    margin: auto;
-    padding: 30px;
-    min-height: 50vh;
+.receiptcreate {
+    background-color: rgba(0, 0, 0, .5);
     border: 1px solid white;
-    background-color: rgba(0,0,0,.5);
-    text-align: center;
     display: table;
+    margin: auto;
+    min-height: 50vh;
+    padding: 30px;
+    text-align: center;
 }
 
-.tableheaders {
-    width: 100%;
-}
+.tableheaders { width: 100%; }
 
 
-.receiptproducts {
-  width: 100%;
-}
+.receiptproducts { width: 100%; }
 
 
-.totalhr {
-    width: 100%;
-}
+.totalhr { width: 100%; }
 
 
 .receiptshop {
-  width: 100%;
-  text-align: center;
-  margin: auto;
-}
-.receiptshopbutton {
-  display: inline-table;
-}
-.receiptshoplabel {
-  display: inline-table;
-  width: 20%;
-}
-.receiptshopselect {
-  display: inline-table;
-  width: 60%;
-}
-.receiptshop select{
-  display: inline-block;
-}
-.receiptdate{
-  width: 100%;
-  text-align: center;
-  margin: auto;
-}
-.receiptdate input{
-  display: inline-block;
+    margin: auto;
+    text-align: center;
+    width: 100%;
 }
 
-.loading {
+.receiptshopbutton { display: inline-table; }
+
+.receiptshoplabel {
+    display: inline-table;
+    width: 20%;
+}
+
+.receiptshopselect {
+    display: inline-table;
+    width: 60%;
+}
+
+.receiptshop select { display: inline-block; }
+
+.receiptdate {
+    margin: auto;
     text-align: center;
+    width: 100%;
+}
+
+.receiptdate input { display: inline-block; }
+
+.loading {
     font-size: 100px;
+    text-align: center;
 }
 
 .noreceipts {
-  text-align: center;
-  font-size: 30px;
+    font-size: 30px;
+    text-align: center;
 }
 
-.maintitle{
-    font-size: 60px;
+.maintitle {
     color: white;
+    font-size: 60px;
 }
 
-.maintext{
-color: white;
+.maintext { color: white; }
+
+.mainheader {
+    padding: 50px;
+    ;
 }
-.mainheader
-{
-    padding: 50px;;
-}
-.mainphoto{
-    width: 100%;
+
+.mainphoto {
+    background: url(../images/mainpage.jpg) no-repeat center center fixed;
     height: auto;
-    position: fixed;
-    top: 0;
     left: 0;
     min-height: 100%;
-    background: url(../images/mainpage.jpg) no-repeat center center fixed;
-}
-.registerbutton{
-    text-align: right;
-}
-.loginbutton{
-    text-align: left;
-}
-
-@media (max-width: 992px) { 
-    .registerbutton{
-    margin: 20px;
-        text-align: center;
-    }
-    .loginbutton{
-    margin: 20px;
-        text-align: center;
-    }
-}
-
-.registerbutton a{
-    font-size: 20px;
-}
-.loginbutton a{
-    font-size: 20px;
-}
-
-
-.dailysummarydate{
-    margin-top: 50px;
-    font-size: 70px;
-    text-align: center;
-}
-
-.dailysummarychart
-{
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 50px;
-}
-.dailysummarytext
-{
-    margin-top: 50px;
-    font-size: 30px;
-    text-align: center;
-}
-
-
-.dailysummarybuttons
-{
-    text-align: center;
-}
-.dailysummarybuttons a
-{
-    padding: 10px;
+    position: fixed;
+    top: 0;
     width: 100%;
+}
+
+.registerbutton { text-align: right; }
+
+.loginbutton { text-align: left; }
+
+@media (max-width: 992px) {
+    .registerbutton {
+        margin: 20px;
+        text-align: center;
+    }
+
+    .loginbutton {
+        margin: 20px;
+        text-align: center;
+    }
+}
+
+.registerbutton a { font-size: 20px; }
+
+.loginbutton a { font-size: 20px; }
+
+
+.dailysummarydate {
+    font-size: 70px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.dailysummarychart {
+    font-size: 30px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.dailysummarytext {
+    font-size: 30px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+
+.dailysummarybuttons { text-align: center; }
+
+.dailysummarybuttons a {
     margin-bottom: 20px;
     margin-top: 20px;
+    padding: 10px;
+    width: 100%;
 }
 
 /*PLAN*/
 
 .planviewheader {
-    text-align: center;
     font-size: 50px;
     margin-bottom: 50px;
+    text-align: center;
 }
 
 .planviewbig {
-  text-align: center;
-  font-size: 50px;
+    font-size: 50px;
+    text-align: center;
 }
 
 .planviewtext {
-    text-align: center;
     font-size: 30px;
+    text-align: center;
 }
+
+.planviewtextchart {
+  height: 400px;
+  line-height: 410px;
+  text-align: center;
+}
+
+.planviewtextchart p {
+    line-height: 50px;
+    display: inline-block;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.planviewtextnochart {  
+  height: 200px;
+  line-height: 210px;
+  text-align: center;
+}
+
+  .planviewtextnochart p {
+    line-height: 50px;
+    display: inline-block;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+  }
 
 .planhr {
     border: 1px solid white;
     width: 100%;
 }
+
+
+.incremental-counter, .incremental-counteraverage {
+  text-align: center;
+    margin-top: 30px;
+}
+
+  .incremental-counter .num, .incremental-counteraverage .num {
+    background: #f8f8f8 none repeat scroll 0 0;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: black;
+    display: inline-block;
+    height: 104px;
+    line-height: 102px;
+    margin: 0 4.5px;
+    position: relative;
+    text-align: center;
+    top: -1px;
+    width: 90px;
+    font-size: 95px;
+    font-size: 5.72625em;
+    font-weight: 700;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  }
+
+  .incremental-counter .num::before, .incremental-counteraverage .num::before {
+    background: black;
+    content: "";
+    display: block;
+    height: 1px;
+    left: -1px;
+    margin: -0.5px 0 0;
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    width: auto;
+  }

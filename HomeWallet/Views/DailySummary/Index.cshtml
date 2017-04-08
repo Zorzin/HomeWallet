@@ -1,4 +1,5 @@
 ﻿@model HomeWallet.Models.DailySummaryViewModels.DailySummaryViewModel
+@using System.Collections
 @using Highsoft.Web.Mvc.Charts
 @{
     ViewData["Title"] = "Index";
@@ -59,7 +60,18 @@
                             {
                                 Distance = -35,
                                 Enabled = true,
-                                Format = "{point.percentage:.1f} %"
+                                Format = "{point.percentage:.1f} %",
+                                Style = new Hashtable
+                                {
+                                    {
+                                        "fontWeight",
+                                        "normal"
+                                    },
+                                    {
+                                        "textOutline",
+                                        "false"
+                                    }
+                                }
                             },
                             ShowInLegend = false
                         }
