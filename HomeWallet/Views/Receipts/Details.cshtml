@@ -1,34 +1,67 @@
-@model HomeWallet.Models.Receipt
+﻿@model HomeWallet.Models.ReceiptViewModels.ReceiptDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
     <h4>Receipt</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PurchaseDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PurchaseDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Shop)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Shop.ID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Id)
-        </dd>
-    </dl>
+  <div class="receiptdetails">
+    <div class="receiptdate">
+      <div class="receiptdatelabeldetails">
+        @Html.DisplayNameFor(model => model.PurchaseDate)
+      </div>
+      <div class="receiptdatedetails">
+        @Html.Raw(@Model.PurchaseDate.ToString("dd.MM.yyyy"))
+      </div>
+    </div>
+    <div class="receiptshop">
+      <div class="receiptshoplabeldetails">
+        @Html.DisplayNameFor(model => model.Shop)
+      </div>
+      <div class="receiptshopdetails">
+        @Html.DisplayFor(model => model.Shop)
+      </div>
+    </div>
+    <hr />
+    <div class="tableheaders">
+      <div class="col-md-4">
+        <label>Name</label>
+      </div>
+      <div class="col-md-3">
+        <label>Amount</label>
+      </div>
+      <div class="col-md-2">
+        <label>Price</label>
+      </div>
+      <div class="col-md-2">
+        <label>Total</label>
+      </div>
+    </div>
+    <div class="receiptproducts">
+      @foreach (var product in @Model.Products)
+      {
+        <div class="col-md-4">
+          @Html.DisplayFor(modelitem => product.Product)
+        </div>
+          <div class="col-md-3">
+            @Html.DisplayFor(modelitem => product.Amount)
+          </div>
+          <div class="col-md-2">
+            @Html.DisplayFor(modelitem => product.Price)
+          </div>
+          <div class="col-md-2 producttotal">
+            @Html.DisplayFor(modelitem => product.Total)
+          </div>
+      }
+    </div>
+    <hr class="totalhr">
+    <div class="productstotal">
+      <label>Total:</label>
+      <label id="total">@Html.DisplayFor(model=>model.Total)</label>
+    </div>
+  </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |

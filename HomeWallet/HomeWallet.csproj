@@ -16,14 +16,6 @@
     <Content Include="wwwroot\css\jquery.counter-analog2.png" />
     <Content Include="wwwroot\css\jquery.counter-analog3.css" />
     <Content Include="wwwroot\css\jquery.counter-analog3.png" />
-    <Content Include="wwwroot\js\jquery-numerator.js" />
-    <Content Include="wwwroot\js\jquery.counter-analog.css" />
-    <Content Include="wwwroot\js\jquery.counter-analog.png" />
-    <Content Include="wwwroot\js\jquery.counter-analog2.css" />
-    <Content Include="wwwroot\js\jquery.counter-analog2.png" />
-    <Content Include="wwwroot\js\jquery.counter-analog3.css" />
-    <Content Include="wwwroot\js\jquery.counter-analog3.png" />
-    <Content Include="wwwroot\js\jquery.counter.js" />
     <Content Include="wwwroot\js\jquery.incremental-counter.js" />
     <Content Include="wwwroot\js\jquery.incremental-counter.min.js" />
   </ItemGroup>

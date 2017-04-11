@@ -316,3 +316,30 @@ textarea { max-width: 280px; }
     top: 50%;
     width: auto;
   }
+
+#removeproductbutton {
+    width: 20px;
+}
+
+.receiptdetails {
+  background-color: rgba(0, 0, 0, .5);
+  border: 1px solid white;
+  display: table;
+  margin: auto;
+  min-height: 50vh;
+  padding: 30px;
+  text-align: center;
+    max-width: 60vh;
+}
+
+.receiptshopdetails, .receiptdatedetails {
+  text-align: right;
+  display: inline-table;
+  width: 60%;
+}
+
+.receiptdatelabeldetails, .receiptshoplabeldetails {
+  text-align: left;
+  display: inline-table;
+  width: 30%;
+}

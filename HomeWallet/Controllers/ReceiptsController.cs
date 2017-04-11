@@ -41,13 +41,37 @@ namespace HomeWallet.Controllers
             var receipt = await _context.Receipts
                 .Include(r => r.Shop)
                 .Include(r => r.User)
+                .Include(r=>r.ReceiptProducts).ThenInclude(p=>p.Product)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (receipt == null)
             {
                 return NotFound();
             }
+            double total = 0;
 
-            return View(receipt);
+            var products = new List<DetailsProductViewModel>();
+            foreach (var receiptproduct in receipt.ReceiptProducts)
+            {
+                products.Add(new DetailsProductViewModel()
+                {
+                    Amount = receiptproduct.Amount,
+                    Price = receiptproduct.Price,
+                    Product = receiptproduct.Product.Name,
+                    Total = receiptproduct.Amount* receiptproduct.Price
+                });
+                total += receiptproduct.Amount * receiptproduct.Price;
+            }
+            var model = new ReceiptDetailsViewModel()
+            {
+                ID = receipt.ID,
+                PurchaseDate = receipt.PurchaseDate,
+                Shop = receipt.Shop.Name,
+                Total = total,
+                Products = products
+            };
+
+
+            return View(model);
         }
 
 

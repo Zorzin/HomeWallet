@@ -198,30 +198,8 @@
 <script>
     $(".incremental-counter").incrementalCounter({
         "digits": @Model.Amount.ToString().Length
-
     });
-
     $(".incremental-counteraverage").incrementalCounter({
         "digits": @Model.Average.ToString().Length
     });
-
-
-
 </script>
-
-@*<script>
-  $('.incremental-counter').numerator({
-      easing: 'linear', // easing options.
-      duration: 2000, // the length of the animation.
-      delimiter: ',',
-      rounding: 2, // decimal places.
-      toValue: @Model.Amount // animate to this value.
-  })
-  $('.incremental-counteraverage').numerator({
-    easing: 'linear', // easing options.
-    duration: 2000, // the length of the animation.
-    delimiter: ',',
-    rounding: 2, // decimal places.
-    toValue: @Model.Average // animate to this value.
-  })
-</script>*@
