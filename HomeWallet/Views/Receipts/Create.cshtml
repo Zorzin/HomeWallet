@@ -54,7 +54,7 @@
         </div>
         <hr class="totalhr">
         <div class="productstotal">
-          <label>Total:</label>
+          <label id="totallabel">Total:</label>
           <label id="total">0</label>
         </div>
         <div class="receiptaddproduct">
@@ -156,7 +156,7 @@
             jQuery.noConflict();
             var totalcost = 0;
             $('#total').empty();
-            $('.producttotal').each(function() {
+            $('.producttotalcreate').each(function() {
                 totalcost += parseFloat($(this).text());
             });
             $('#total').text(totalcost);

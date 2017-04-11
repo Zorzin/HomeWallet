@@ -16,20 +16,20 @@
     @Html.HiddenFor(model => model.Product.Name)
     @Html.HiddenFor(model => model.Product.ID)
 
-      <div class="col-md-12">
-          <div class="col-md-1">
-            <button class="btn btn-danger" type="button" id="removeproductbutton"><span class="glyphicon glyphicon-remove"></span></button>
+      <div class="productslinecreate">
+          <div class="col-md-2 buttonproductcreate">
+            <button class="btn btn-danger btn-xs" type="button" id="removeproductbutton"><small><span class="glyphicon glyphicon-remove"></span></small></button>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3 nameproductcreate">
               @Html.DisplayFor(model => model.Product.Name)
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 amountproductcreate">
               @Html.DisplayFor(model => model.Amount)
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2 priceproductcreate">
               @Html.DisplayFor(model => model.Price)
           </div>
-          <div class="col-md-2 producttotal">
+          <div class="col-md-2 producttotalcreate">
               @Html.DisplayFor(model => model.Total)
           </div>
       </div>
