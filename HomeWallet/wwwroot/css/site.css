@@ -390,3 +390,7 @@ textarea { max-width: 280px; }
 #total {
     padding-left: 5px;
 }
+
+.searchbox {
+    display: inline;
+}
