@@ -394,3 +394,71 @@ textarea { max-width: 280px; }
 .searchbox {
     display: inline;
 }
+
+/* DIALOG MAIN CONTAINER */
+.ui-dialog.ui-widget-content {
+  border: none;
+  background-color: rgba(0,0,0,0.8) !important;
+}
+/* STYLE AROUND THE CLOSE (X) BUTTON */
+.ui-dialog-titlebar-close.ui-state-default,
+.ui-dialog-titlebar-close.ui-state-hover {
+  outline: none;
+  background: none;
+  border: none;
+}
+/* DIALOG TITLE BAR */
+.ui-dialog .ui-widget-header {
+  border: 0;
+  background: none
+}
+
+.ui-dialog {
+    z-index: 1060 !important;
+}
+
+
+.ui-widget-content {
+
+  background: none !important;
+  border: none !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  position: absolute;
+}
+
+.ui-dialog {
+  top: 50%;
+  left: 50%;
+}
+
+.ui-dialog-buttonpane .ui-dialog-buttonset {
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#productdialog, #shopdialog {
+  position: relative;
+}
+
+#addproductform, #addshopform {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+  #addproductform p {
+    color: white;
+      padding-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  #addproductform label {
+    color: white;
+    padding-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+  }

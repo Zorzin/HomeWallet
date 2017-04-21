@@ -11,13 +11,20 @@
 <link rel="stylesheet" href="~/css/chosen.css">
 
 <form id="addproductform">
-    <select id="selectproduct" data-placeholder="Select product" asp-for="ProductID" class ="form-control chosen-single-select" asp-items="ViewBag.Products"></select>
-    <input id="newproductcheckbox" type="checkbox" class="form-control" asp-for="isNew"/>
-    <div id="newproduct" >
+    <p>Product:</p>
+    <select id="selectproduct" data-placeholder="Select product" asp-for="ProductID" class="form-control chosen-single-select" asp-items="ViewBag.Products"></select>
+    <div class="checkbox">
+      <label><input id="newproductcheckbox" type="checkbox" asp-for="isNew" /> New product</label>
+    </div>  
+    <div id="newproduct">
+      <p>Name:</p>
         <input asp-for="Name" class="form-control" placeholder="Name"/>
+      <p>Categories:</p>
         <select data-placeholder="Select categories" asp-for="Categories" class="form-control chosen-group-select" multiple="multiple"></select>
     </div>
+    <p>Amount:</p>
     <input type="number" asp-for="Amount" class="form-control" placeholder="Amount"/>
+    <p>Price per unit:</p>
     <input type="number" asp-for="Price" class="form-control" placeholder="Price per unit"/>
 </form>
 

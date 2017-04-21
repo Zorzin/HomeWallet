@@ -103,6 +103,8 @@
             shopdialog = $('#shopdialog').dialog({
                 autoOpen: true,
                 modal: true,
+                width: $(window).width(),
+                height: $(window).height(),
                 open: function() {
                     $(this).load('@Url.Action("CreateShop")');
                 },
@@ -128,6 +130,8 @@
             productdialog = $("#productdialog").dialog({
                 autoOpen: true,
                 modal: true,
+                width: $(window).width(),
+                height: $(window).height(),
                 open: function() {
                     $(this).load('@Url.Action("AddProduct")');
                 },
