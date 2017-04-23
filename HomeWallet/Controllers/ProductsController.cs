@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Logic;
 using HomeWallet.Models;
+using HomeWallet.Models.ProductViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeWallet.Controllers
 {
@@ -16,6 +16,7 @@ namespace HomeWallet.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+
         public ProductsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -23,11 +24,11 @@ namespace HomeWallet.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string sortOrder,string currentFilter, string searchString,int? page)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
             if (searchString != null)
             {
                 page = 1;
@@ -36,27 +37,27 @@ namespace HomeWallet.Controllers
             {
                 searchString = currentFilter;
             }
-              
+
             ViewData["CurrentFilter"] = searchString;
             var products = _context.Products.Where(p => p.UserID == _userManager.GetUserId(HttpContext.User));
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 products = products.Where(p => p.Name.ToLower().Contains(searchString.ToLower()));
             }
-            
+
             switch (sortOrder)
             {
-              case "name_desc":
-                products = products.OrderByDescending(s => s.Name);
-                break;
-              default:
-                products = products.OrderBy(s => s.Name);
-                break;
-            }    
-            
-            int pageSize = 10;
-            return View(await PaginatedList<Product>.CreateAsync(products,page??1,pageSize));
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    products = products.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var pageSize = 10;
+            return View(await PaginatedList<Product>.CreateAsync(products, page ?? 1, pageSize));
         }
 
         // GET: Products/Details/5
@@ -68,7 +69,7 @@ namespace HomeWallet.Controllers
             }
 
             var product = await _context.Products
-                .Include(p => p.ProductCategories).ThenInclude(pc=>pc.Category)
+                .Include(p => p.ProductCategories).ThenInclude(pc => pc.Category)
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
@@ -110,13 +111,29 @@ namespace HomeWallet.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
+            var product = await _context.Products
+                .Include(p => p.ProductCategories)
+                .ThenInclude(c => c.Category)
+                .SingleOrDefaultAsync(m => m.ID == id);
+            var categories = new List<int>();
+            if (product.ProductCategories.Count > 0)
+            {
+                categories = product.ProductCategories.Select(pc => pc.Category).Select(c => c.ID).ToList();
+            }
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", product.UserID);
-            return View(product);
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.UserID == product.UserID), "ID",
+                "Name");
+            var model = new EditProductViewModel
+            {
+                ID = (int) id,
+                Name = product.Name,
+                UserID = product.UserID,
+                Categories = categories
+            };
+            return View(model);
         }
 
         // POST: Products/Edit/5
@@ -124,35 +141,64 @@ namespace HomeWallet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,UserID")] Product product)
+        public async Task<IActionResult> Edit(EditProductViewModel model)
         {
-            if (id != product.ID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(product);
+                    var product =
+                        _context.Products.Include(p => p.ProductCategories).FirstOrDefault(p => p.ID == model.ID);
+                    product.Name = model.Name;
+                    var oldcategories = product.ProductCategories.Select(pc => pc.CategoryID);
+                    if (model.Categories != null)
+                    {
+                        foreach (var oldcategory in oldcategories)
+                        {
+                            if (!model.Categories.Contains(oldcategory))
+                            {
+                                var pc =
+                                    _context.ProductCategories.FirstOrDefault(
+                                        p => p.ProductID == model.ID && p.CategoryID == oldcategory);
+                                _context.ProductCategories.Remove(pc);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var oldcategory in oldcategories)
+                        {
+                            var pc = _context.ProductCategories.FirstOrDefault(
+                                        p => p.ProductID == model.ID && p.CategoryID == oldcategory);
+                            _context.ProductCategories.Remove(pc);
+                        }
+                    }
+                    if (model.Categories != null)
+                    {
+                        foreach (var category in model.Categories)
+                        {
+                            if (!oldcategories.Contains(category))
+                            {
+                                var productcategory = new ProductCategory
+                                {
+                                    CategoryID = category,
+                                    ProductID = model.ID
+                                };
+                                _context.ProductCategories.Add(productcategory);
+                            }
+                        }
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", product.UserID);
-            return View(product);
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.UserID == model.UserID), "ID",
+                "Name");
+            return View(model);
         }
 
         // GET: Products/Delete/5
@@ -175,7 +221,8 @@ namespace HomeWallet.Controllers
         }
 
         // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

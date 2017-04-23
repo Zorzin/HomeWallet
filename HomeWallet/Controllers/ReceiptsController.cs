@@ -155,6 +155,7 @@ namespace HomeWallet.Controllers
         {
             var userid = _userManager.GetUserId(HttpContext.User);
             ViewData["Products"] = new SelectList(_context.Products.Where(p=>p.UserID ==userid),"ID","Name");
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(p=>p.UserID ==userid),"ID","Name");
             return PartialView("CreateProduct");
         }
         [HttpPost]

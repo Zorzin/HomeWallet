@@ -11,21 +11,40 @@
 <link rel="stylesheet" href="~/css/chosen.css">
 
 <form id="addproductform">
-    <p>Product:</p>
-    <select id="selectproduct" data-placeholder="Select product" asp-for="ProductID" class="form-control chosen-single-select" asp-items="ViewBag.Products"></select>
-    <div class="checkbox">
-      <label><input id="newproductcheckbox" type="checkbox" asp-for="isNew" /> New product</label>
-    </div>  
-    <div id="newproduct">
-      <p>Name:</p>
-        <input asp-for="Name" class="form-control" placeholder="Name"/>
-      <p>Categories:</p>
-        <select data-placeholder="Select categories" asp-for="Categories" class="form-control chosen-group-select" multiple="multiple"></select>
+    <div class="createproductproduct">
+          <label>Product:</label>
+          <select id="selectproduct"
+                  data-placeholder="Select product"
+                  asp-for="ProductID"
+                  class="forminput chosen-single-select"
+                  asp-items="ViewBag.Products"></select>
     </div>
-    <p>Amount:</p>
-    <input type="number" asp-for="Amount" class="form-control" placeholder="Amount"/>
-    <p>Price per unit:</p>
-    <input type="number" asp-for="Price" class="form-control" placeholder="Price per unit"/>
+    <div class="checkbox">
+        <label><input id="newproductcheckbox" type="checkbox" asp-for="isNew"/> New product</label>
+    </div>
+    <div id="newproduct">
+        <div class="createproductname">
+              <label>Name:</label>
+              <input asp-for="Name" class="forminput" placeholder="Name" />
+            
+        </div>
+        <div class="createproductcategories">
+            <label>Categories:</label>
+            <select data-placeholder="Select categories"
+                    asp-for="Categories"
+                    class="forminput chosen-group-select"
+                    multiple="multiple"
+                    asp-items="ViewBag.Categories"></select>
+        </div>
+    </div>
+    <div class="createproductamount">
+        <label>Amount:</label>
+        <input type="number" asp-for="Amount" class="forminput" placeholder="Amount" />
+    </div>
+    <div class="createproductprice">
+        <label>Price per unit:</label>
+        <input type="number" asp-for="Price" class="forminput" placeholder="Price per unit" />
+    </div>
 </form>
 
 <script src="@Url.Content("~/js/chosen.jquery.js")" type="text/javascript"></script>

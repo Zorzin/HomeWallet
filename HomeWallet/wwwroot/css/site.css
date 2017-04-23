@@ -398,7 +398,7 @@ textarea { max-width: 280px; }
 /* DIALOG MAIN CONTAINER */
 .ui-dialog.ui-widget-content {
   border: none;
-  background-color: rgba(0,0,0,0.8) !important;
+  background-color: rgba(0,0,0,0.9) !important;
 }
 /* STYLE AROUND THE CLOSE (X) BUTTON */
 .ui-dialog-titlebar-close.ui-state-default,
@@ -429,11 +429,6 @@ textarea { max-width: 280px; }
   position: absolute;
 }
 
-.ui-dialog {
-  top: 50%;
-  left: 50%;
-}
-
 .ui-dialog-buttonpane .ui-dialog-buttonset {
   top: 90%;
   left: 50%;
@@ -446,19 +441,44 @@ textarea { max-width: 280px; }
 
 #addproductform, #addshopform {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-  #addproductform p {
+  #addproductform p, #addshopform p {
     color: white;
-      padding-top: 10px;
+    padding-top: 10px;
     font-size: 25px;
     font-weight: bold;
   }
-  #addproductform label {
+  #addproductform label, #addshopform label {
     color: white;
-    padding-top: 10px;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: bold;
   }
+
+.checkbox label {
+  font-size: 15px !important;
+}
+.forminput {
+  width: 250px;
+  display: table;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  vertical-align: middle;
+  border: none;
+  padding-left: 10px;
+  font-size: 1.2em !important;
+}
+
+.chosen-container {
+    display: table !important;
+}
+
+.chosen-container-multi .chosen-choices {
+    border-radius: 5px;
+}
+
+.editcategories {
+    width: 100% !important;
+}
