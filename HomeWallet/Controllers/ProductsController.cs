@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
 using HomeWallet.Logic;
+using HomeWallet.Logic.Products;
 using HomeWallet.Models;
 using HomeWallet.Models.ProductViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,12 @@ namespace HomeWallet.Controllers
         {
             _context = context;
             _userManager = userManager;
+        }
+
+        private void setViewDataCategories(string UserID)
+        {
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.UserID == UserID), "ID",
+                "Name");
         }
 
         // GET: Products
@@ -120,12 +127,7 @@ namespace HomeWallet.Controllers
             {
                 categories = product.ProductCategories.Select(pc => pc.Category).Select(c => c.ID).ToList();
             }
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.UserID == product.UserID), "ID",
-                "Name");
+            setViewDataCategories(product.UserID);
             var model = new EditProductViewModel
             {
                 ID = (int) id,
@@ -150,44 +152,8 @@ namespace HomeWallet.Controllers
                     var product =
                         _context.Products.Include(p => p.ProductCategories).FirstOrDefault(p => p.ID == model.ID);
                     product.Name = model.Name;
-                    var oldcategories = product.ProductCategories.Select(pc => pc.CategoryID);
-                    if (model.Categories != null)
-                    {
-                        foreach (var oldcategory in oldcategories)
-                        {
-                            if (!model.Categories.Contains(oldcategory))
-                            {
-                                var pc =
-                                    _context.ProductCategories.FirstOrDefault(
-                                        p => p.ProductID == model.ID && p.CategoryID == oldcategory);
-                                _context.ProductCategories.Remove(pc);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (var oldcategory in oldcategories)
-                        {
-                            var pc = _context.ProductCategories.FirstOrDefault(
-                                        p => p.ProductID == model.ID && p.CategoryID == oldcategory);
-                            _context.ProductCategories.Remove(pc);
-                        }
-                    }
-                    if (model.Categories != null)
-                    {
-                        foreach (var category in model.Categories)
-                        {
-                            if (!oldcategories.Contains(category))
-                            {
-                                var productcategory = new ProductCategory
-                                {
-                                    CategoryID = category,
-                                    ProductID = model.ID
-                                };
-                                _context.ProductCategories.Add(productcategory);
-                            }
-                        }
-                    }
+                    EditProduct.DeleteOldCategories(product,model.Categories,_context);
+                    EditProduct.AddNewCategories(product,model.Categories,_context);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -196,8 +162,7 @@ namespace HomeWallet.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.UserID == model.UserID), "ID",
-                "Name");
+            setViewDataCategories(model.UserID);
             return View(model);
         }
 

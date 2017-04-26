@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,24 +6,59 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
+using HomeWallet.Logic;
 using HomeWallet.Models;
+using HomeWallet.Models.CategoryViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public CategoriesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public CategoriesController(ApplicationDbContext context, UserManager<ApplicationUser>  userManager)
         {
             _context = context;    
+            _userManager = userManager;
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var applicationDbContext = _context.Categories.Include(c => c.User);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var categories = _context.Categories.Where(s => s.UserID == _userManager.GetUserId(HttpContext.User));
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                categories = categories.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    categories = categories.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    categories= categories.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var pageSize = 10;
+            return View(await PaginatedList<Category>.CreateAsync(categories, page ?? 1, pageSize));
+        
         }
 
         // GET: Categories/Details/5
@@ -35,14 +70,28 @@ namespace HomeWallet.Controllers
             }
 
             var category = await _context.Categories
-                .Include(c => c.User)
+                .Include(c=>c.ProductCategories)
+                .ThenInclude(pc=>pc.Product)
                 .SingleOrDefaultAsync(m => m.ID == id);
+
+            var products = new List<string>();
+            foreach (var productCategory in category.ProductCategories)
+            {
+                products.Add(productCategory.Product.Name);
+            }
+            
+            var model = new CategoryDetailsViewModel()
+            {
+                ID = (int)id,
+                Name = category.Name,
+                Products = products
+            }; 
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(model);
         }
 
         // GET: Categories/Create

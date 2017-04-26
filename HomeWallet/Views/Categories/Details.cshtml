@@ -1,4 +1,4 @@
-@model HomeWallet.Models.Category
+﻿@model HomeWallet.Models.CategoryViewModels.CategoryDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -17,10 +17,14 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.Products)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.Id)
+            @foreach (var category in @Model.Products)
+            {
+                @category
+                <br />
+            }
         </dd>
     </dl>
 </div>

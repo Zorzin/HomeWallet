@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
+using HomeWallet.Logic;
 using HomeWallet.Models;
+using HomeWallet.Models.ShopViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace HomeWallet.Controllers
@@ -22,9 +24,41 @@ namespace HomeWallet.Controllers
         }
 
         // GET: Shops
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _context.Shops.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var shops = _context.Shops.Where(s => s.UserID == _userManager.GetUserId(HttpContext.User));
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                shops = shops.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    shops = shops.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    shops = shops.OrderBy(s => s.Name);
+                    break;
+            }
+
+            var pageSize = 10;
+            return View(await PaginatedList<Shop>.CreateAsync(shops, page ?? 1, pageSize));
+        
         }
 
         // GET: Shops/Details/5
@@ -36,13 +70,32 @@ namespace HomeWallet.Controllers
             }
 
             var shop = await _context.Shops
+                .Include(s=>s.Receipts)
+                .ThenInclude(r=>r.ReceiptProducts)
+                .ThenInclude(rp=>rp.Product)
                 .SingleOrDefaultAsync(m => m.ID == id);
-            if (shop == null)
+            var products = new List<string>();
+            var productsID = new List<int>();
+            foreach (var shopReceipt in shop.Receipts)
             {
-                return NotFound();
+                foreach (var shopReceiptReceiptProduct in shopReceipt.ReceiptProducts)
+                {
+                    if (!productsID.Contains(shopReceiptReceiptProduct.ProductID))
+                    {
+                          productsID.Add(shopReceiptReceiptProduct.ProductID);
+                          products.Add(shopReceiptReceiptProduct.Product.Name);
+                    }
+                }
             }
+            
+            var model = new ShopDetailsViewModel()
+            {
+                ID = (int)id,
+                Name = shop.Name,
+                Products = products
+            };
 
-            return View(shop);
+            return View(model);
         }
 
         // GET: Shops/Create
