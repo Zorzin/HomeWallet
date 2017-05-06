@@ -18,6 +18,7 @@
     <Content Include="wwwroot\css\jquery.counter-analog3.png" />
     <Content Include="wwwroot\js\jquery.incremental-counter.js" />
     <Content Include="wwwroot\js\jquery.incremental-counter.min.js" />
+    <Content Include="wwwroot\js\tabjs.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BeginCollectionItemCore" Version="1.0.7" />

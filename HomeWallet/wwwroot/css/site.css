@@ -482,3 +482,7 @@ textarea { max-width: 280px; }
 .editcategories {
     width: 100% !important;
 }
+
+.detailstab a {
+    color: white;
+}
