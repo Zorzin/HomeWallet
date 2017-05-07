@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Logic;
+using HomeWallet.Logic.Categories;
 using HomeWallet.Models;
 using HomeWallet.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -56,7 +57,7 @@ namespace HomeWallet.Controllers
                     break;
             }
 
-            var pageSize = 10;
+            var pageSize = 12;
             return View(await PaginatedList<Category>.CreateAsync(categories, page ?? 1, pageSize));
         
         }
@@ -68,29 +69,16 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
-            var category = await _context.Categories
-                .Include(c=>c.ProductCategories)
-                .ThenInclude(pc=>pc.Product)
-                .SingleOrDefaultAsync(m => m.ID == id);
-
-            var products = new List<string>();
-            foreach (var productCategory in category.ProductCategories)
+            if (!CheckCategory.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
             {
-                products.Add(productCategory.Product.Name);
+                return RedirectToAction("Index", "Categories");
             }
-            
-            var model = new CategoryDetailsViewModel()
-            {
-                ID = (int)id,
-                Name = category.Name,
-                Products = products
-            }; 
-            if (category == null)
+
+            var model = CategoryDetails.GetModel((int)id,_context);
+            if (model == null)
             {
                 return NotFound();
             }
-
             return View(model);
         }
 
@@ -125,13 +113,15 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckCategory.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Categories");
+            }
             var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
             if (category == null)
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", category.UserID);
             return View(category);
         }
 
@@ -140,19 +130,19 @@ namespace HomeWallet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,UserID")] Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
-            if (id != category.ID)
+            if (!CheckCategory.CheckById(category.ID, _userManager.GetUserId(HttpContext.User),_context))
             {
-                return NotFound();
+                return RedirectToAction("Index", "Categories");
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    var update = _context.Categories.FirstOrDefault(c=>c.ID == category.ID);
+                    update.Name = category.Name;
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -167,7 +157,6 @@ namespace HomeWallet.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", category.UserID);
             return View(category);
         }
 
@@ -178,7 +167,10 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckCategory.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Categories");
+            }
             var category = await _context.Categories
                 .Include(c => c.User)
                 .SingleOrDefaultAsync(m => m.ID == id);
@@ -195,6 +187,10 @@ namespace HomeWallet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!CheckCategory.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Categories");
+            }
             var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();

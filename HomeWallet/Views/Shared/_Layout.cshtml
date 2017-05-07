@@ -33,14 +33,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Receipts" asp-action="Create">Create Receipt</a></li>
-                  <li><a asp-area="" asp-controller="Receipts" asp-action="CreateCyclical">Create Cyclical Receipt</a></li>
-                  <li><a asp-area="" asp-controller="Plans" asp-action="Index">Your Plan</a></li>
+                    <li><a asp-area="" asp-controller="Management" asp-action="Index">Options</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
-    </nav>
+    </nav>  
     <div class="container body-content">
         @RenderBody()
         <hr />

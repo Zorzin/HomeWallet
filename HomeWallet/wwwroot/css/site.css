@@ -486,3 +486,38 @@ textarea { max-width: 280px; }
 .detailstab a {
     color: white;
 }
+
+.listpanel {
+  height: 200px;
+  width: 200px;
+  text-align: center;
+  line-height: 200px;
+  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.listpanel span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  padding-bottom: 30px;
+  color: white;
+}
+
+  .listpanel:hover {
+    background-color: rgba(0, 0, 0,1);
+  }
+
+.panelmaindiv {
+    margin-top: 20px;
+}
+
+#detailsdiv {
+    margin-bottom: 50px;
+}
+
+.detailsbuttonsdiv a{
+    width: 50%;
+    margin: auto;
+    display: block;
+}

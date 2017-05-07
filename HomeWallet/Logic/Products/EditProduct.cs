@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
 using HomeWallet.Models;
+using HomeWallet.Models.ProductViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeWallet.Logic.Products
@@ -56,8 +57,29 @@ namespace HomeWallet.Logic.Products
                 }
             }
         }
-      
-    }
+
+        public static EditProductViewModel GetModel(int productId, ApplicationDbContext context)
+        {
+            var product = context.Products
+                .Include(p => p.ProductCategories)
+                .ThenInclude(c => c.Category)
+                .SingleOrDefault(m => m.ID == productId);
+            var categories = new List<int>();
+            if (product.ProductCategories.Count > 0)
+            {
+                categories = product.ProductCategories.Select(pc => pc.Category).Select(c => c.ID).ToList();
+            }
+            var model = new EditProductViewModel
+            {
+                ID = productId,
+                Name = product.Name,
+                UserID = product.UserID,
+                Categories = categories
+            };
+            return model;
+        }
+
+  }
     
     
 }

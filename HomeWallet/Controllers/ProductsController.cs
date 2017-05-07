@@ -63,7 +63,7 @@ namespace HomeWallet.Controllers
                     break;
             }
 
-            var pageSize = 10;
+            var pageSize = 12;
             return View(await PaginatedList<Product>.CreateAsync(products, page ?? 1, pageSize));
         }
 
@@ -74,7 +74,10 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckProduct.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Products");
+            }
             var product = await _context.Products
                 .Include(p => p.ProductCategories).ThenInclude(pc => pc.Category)
                 .SingleOrDefaultAsync(m => m.ID == id);
@@ -117,24 +120,16 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
-            var product = await _context.Products
-                .Include(p => p.ProductCategories)
-                .ThenInclude(c => c.Category)
-                .SingleOrDefaultAsync(m => m.ID == id);
-            var categories = new List<int>();
-            if (product.ProductCategories.Count > 0)
+            if (!CheckProduct.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
             {
-                categories = product.ProductCategories.Select(pc => pc.Category).Select(c => c.ID).ToList();
+                return RedirectToAction("Index", "Products");
             }
-            setViewDataCategories(product.UserID);
-            var model = new EditProductViewModel
+            var model = EditProduct.GetModel((int) id, _context);
+            if (model == null)
             {
-                ID = (int) id,
-                Name = product.Name,
-                UserID = product.UserID,
-                Categories = categories
-            };
+                return NotFound();
+            }
+            setViewDataCategories(model.UserID);
             return View(model);
         }
 
@@ -145,6 +140,10 @@ namespace HomeWallet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProductViewModel model)
         {
+            if (!CheckProduct.CheckById(model.ID, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Products");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -173,7 +172,10 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckProduct.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Products");
+            }
             var product = await _context.Products
                 .Include(p => p.User)
                 .SingleOrDefaultAsync(m => m.ID == id);
@@ -191,6 +193,10 @@ namespace HomeWallet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!CheckProduct.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Products");
+            }
             var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();

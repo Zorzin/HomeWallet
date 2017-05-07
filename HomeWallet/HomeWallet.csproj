@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logic\Receipts\" />
+    <Folder Include="Views\Management\" />
     <Folder Include="Views\Products\" />
   </ItemGroup>
 </Project>

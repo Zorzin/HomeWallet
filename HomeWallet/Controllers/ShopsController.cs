@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeWallet.Data;
 using HomeWallet.Logic;
+using HomeWallet.Logic.Shops;
 using HomeWallet.Models;
 using HomeWallet.Models.ShopViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -56,7 +57,7 @@ namespace HomeWallet.Controllers
                     break;
             }
 
-            var pageSize = 10;
+            var pageSize = 12;
             return View(await PaginatedList<Shop>.CreateAsync(shops, page ?? 1, pageSize));
         
         }
@@ -68,33 +69,16 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
-            var shop = await _context.Shops
-                .Include(s=>s.Receipts)
-                .ThenInclude(r=>r.ReceiptProducts)
-                .ThenInclude(rp=>rp.Product)
-                .SingleOrDefaultAsync(m => m.ID == id);
-            var products = new List<string>();
-            var productsID = new List<int>();
-            foreach (var shopReceipt in shop.Receipts)
-            {
-                foreach (var shopReceiptReceiptProduct in shopReceipt.ReceiptProducts)
-                {
-                    if (!productsID.Contains(shopReceiptReceiptProduct.ProductID))
-                    {
-                          productsID.Add(shopReceiptReceiptProduct.ProductID);
-                          products.Add(shopReceiptReceiptProduct.Product.Name);
-                    }
-                }
-            }
             
-            var model = new ShopDetailsViewModel()
+            if (!CheckShop.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
             {
-                ID = (int)id,
-                Name = shop.Name,
-                Products = products
-            };
-
+                return RedirectToAction("Index", "Shops");
+            }
+            var model = ShopDetails.GetModel((int) id, _context);
+            if (model==null)
+            {
+              return NotFound();
+            }
             return View(model);
         }
 
@@ -128,7 +112,10 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckShop.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Shops");
+            }
             var shop = await _context.Shops.SingleOrDefaultAsync(m => m.ID == id);
             if (shop == null)
             {
@@ -142,19 +129,19 @@ namespace HomeWallet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Shop shop)
+        public async Task<IActionResult> Edit(Shop shop)
         {
-            if (id != shop.ID)
+            if (!CheckShop.CheckById(shop.ID, _userManager.GetUserId(HttpContext.User),_context))
             {
-                return NotFound();
+                return RedirectToAction("Index", "Shops");
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(shop);
-                    await _context.SaveChangesAsync();
+                    var update = _context.Shops.FirstOrDefault(s => s.ID == shop.ID);
+                    update.Name = shop.Name;
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -179,7 +166,10 @@ namespace HomeWallet.Controllers
             {
                 return NotFound();
             }
-
+            if (!CheckShop.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Shops");
+            }
             var shop = await _context.Shops
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (shop == null)
@@ -195,6 +185,10 @@ namespace HomeWallet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!CheckShop.CheckById((int)id, _userManager.GetUserId(HttpContext.User),_context))
+            {
+                return RedirectToAction("Index", "Shops");
+            }
             var shop = await _context.Shops.SingleOrDefaultAsync(m => m.ID == id);
             _context.Shops.Remove(shop);
             await _context.SaveChangesAsync();

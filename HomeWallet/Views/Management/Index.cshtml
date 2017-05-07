@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-md-12">
+    <div class="col-md-3 panelmaindiv col-md-offset-2">
+        <div class="panel panel-default listpanel">
+          <a asp-controller="Shops" asp-action="Index">
+            <div>
+              <span>Shops</span>
+            </div>
+          </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv">
+      <div class="panel panel-default listpanel">
+        <a asp-controller="Categories" asp-action="Index">
+          <div>
+            <span>Categories</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-3 panelmaindiv">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Products" asp-action="Index">
+                <div>
+                    <span>Products</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv col-md-offset-2">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Receipts" asp-action="Create">
+                <div>
+                    <span>Create Receipt</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Receipts" asp-action="CreateCyclical">
+                <div>
+                    <span>Create Cyclical Receipt</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Plans" asp-action="Index">
+                <div>
+                    <span>Plan</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv col-md-offset-2">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Settings" asp-action="Index">
+                <div>
+                    <span>Setting</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3 panelmaindiv">
+        <div class="panel panel-default listpanel">
+            <a asp-controller="Settings" asp-action="Index">
+                <div>
+                    <span>Account</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

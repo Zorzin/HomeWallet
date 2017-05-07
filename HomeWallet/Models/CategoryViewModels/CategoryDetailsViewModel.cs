@@ -9,6 +9,12 @@ namespace HomeWallet.Models.CategoryViewModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public ICollection<string> Products { get; set; }
+        public ICollection<CategoryProductsViewModel> Products { get; set; }
+    }
+
+    public class CategoryProductsViewModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

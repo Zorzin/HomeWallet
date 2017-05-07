@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -1144,6 +1144,7 @@ img {
   border-radius: 50%;
 }
 hr {
+    width: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
