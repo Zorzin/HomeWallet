@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeWallet.Data;
@@ -78,15 +79,16 @@ namespace HomeWallet.Controllers
             {
                 return RedirectToAction("Index", "Products");
             }
-            var product = await _context.Products
-                .Include(p => p.ProductCategories).ThenInclude(pc => pc.Category)
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (product == null)
+            var model = DetailsProduct.GetModel((int) id, _context, DateTime.MinValue, DateTime.MaxValue);
+            if (model == null)
             {
                 return NotFound();
             }
-
-            return View(product);
+            ViewData["TimesData"] = DetailsProduct.GetShopTimesChartData((int) id, _context, DateTime.MinValue, DateTime.MaxValue);
+            ViewData["AverageData"] = DetailsProduct.GetShopAverageChartData((int)id, _context, DateTime.MinValue, DateTime.MaxValue);
+            ViewData["PlanData"] = DetailsProduct.GetPlanChartData((int) id, _context, DateTime.MinValue,
+                DateTime.MaxValue, _userManager.GetUserId(HttpContext.User));
+            return View(model);
         }
 
         // GET: Products/Create
