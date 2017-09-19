@@ -33,3 +33,16 @@ C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\Home
 C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.dll
 C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.pdb
 C:\Users\Zorzin\Documents\visual studio 2017\Projects\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\Microsoft.DiaSymReader.Native.x86.dll
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.deps.json
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.runtimeconfig.json
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.runtimeconfig.dev.json
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.dll
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\bin\Debug\netcoreapp1.1\HomeWallet.pdb
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.csprojResolveAssemblyReference.cache
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.csproj.CoreCompileInputs.cache
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.AssemblyInfo.cs
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.dll
+D:\Programowanie\HomeWallet\HomeWallet\HomeWallet\obj\Debug\netcoreapp1.1\HomeWallet.pdb
